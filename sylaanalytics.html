@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syla Analytics - AI-Powered Data Platform</title>
+  
+  <!-- SEO Meta -->
+  <meta name="description" content="Syla Analytics: AI-powered data visualization and forecasting platform. Automated chart generation, natural language forecasting, and file conversion tools." />
+  <meta name="keywords" content="Syla Analytics, data visualization, AI forecasting, automated charts, data analysis, Esiah Kapinga, analytics" />
+  <meta name="author" content="Esiah Kapinga" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#facc15" />
+  <link rel="canonical" href="https://esiiah.github.io/portfolio-site/syla-analytics.html" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/esiah-logo.png" />
+
+  <!-- Open Graph & Twitter -->
+  <meta property="og:title" content="Syla Analytics – Esiah Kapinga" />
+  <meta property="og:description" content="AI-powered data visualization and forecasting platform with automated chart generation and natural language AI." />
+  <meta property="og:image" content="images/syla-card.png" />
+  <meta property="og:url" content="https://esiiah.github.io/portfolio-site/syla-analytics.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Syla Analytics – Esiah Kapinga" />
+  <meta name="twitter:description" content="AI-powered data platform for automated visualization and forecasting." />
+  <meta name="twitter:image" content="images/syla-card.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #fff;
+      color: #1f2937;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    header .container {
+      max-width: 96rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow-x: auto;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      text-decoration: none;
+      color: black;
+    }
+
+    header .logo img {
+      height: 2rem;
+      width: auto;
+    }
+
+    header .logo h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    header nav {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      margin-left: 1rem;
+      scrollbar-width: none;
+    }
+
+    header nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    header nav a {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+    }
+
+    header .btn-yellow-light {
+      background-color: #fef9c3;
+      color: #ca8a04;
+      border: 1px solid #facc15;
+    }
+    header .btn-yellow-light:hover {
+      background-color: #fef08a;
+    }
+
+    header .btn-yellow-solid {
+      background-color: #eab308;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    header .btn-yellow-solid:hover {
+      background-color: #ca8a04;
+    }
+
+    /* Hero Banners */
+    .desktop-banner {
+      display: none;
+    }
+
+    .mobile-banner {
+      display: block;
+    }
+
+    @media screen and (min-width: 768px) {
+      .desktop-banner {
+        display: block;
+      }
+      .mobile-banner {
+        display: none;
+      }
+    }
+
+    /* Main Content */
+    main {
+      padding: 2rem 4rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    @media (max-width: 767px) {
+      main {
+        padding: 1rem;
+      }
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    section p, section ul, section ol {
+      font-size: 1.125rem;
+      color: #1f2937;
+      line-height: 1.75;
+    }
+
+    section ul, section ol {
+      padding-left: 1.5rem;
+    }
+
+    section ul li, section ol li {
+      margin-bottom: 0.5rem;
+    }
+
+    .problem-solution {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .problem-solution {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 2px solid;
+    }
+
+    .problem-card {
+      background-color: #fef2f2;
+      border-color: #fca5a5;
+    }
+
+    .solution-card {
+      background-color: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #D1D5DB;
+      text-align: left;
+    }
+
+    thead {
+      background: #F3F4F6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: #eab308;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s;
+      margin-top: 1rem;
+    }
+
+    .cta-button:hover {
+      background-color: #ca8a04;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: #6B7280;
+      padding: 2rem 1rem;
+      border-top: 1px solid #374151;
+    }
+
+    footer a {
+      color: #2563EB;
+      text-decoration: underline;
+    }
+
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    footer .social-icons img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container">
+    <a href="index.html" class="logo">
+      <img src="images/esiah-logo.png" alt="Esiah Logo" />
+      <h1>Esiah</h1>
+    </a>
+
+    <nav>
+      <a href="index.html#home" class="btn-yellow-light">Home</a>
+      <a href="index.html#projects" class="btn-yellow-solid">Projects</a>
+      <a href="Esiah-Kapinga-Resume.pdf" download class="btn-yellow-light">Resume</a>
+      <a href="index.html#contact" class="btn-yellow-light">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Desktop Banner -->
+<section class="desktop-banner" style="width: 100%; background: #fff; padding: 0.5rem 2rem;">
+  <div style="position: relative; border-radius: 3rem; overflow: hidden; max-width: 2069.856px; margin: 0 auto;">
+    <img src="images/syla-banner.png" alt="Syla Analytics Banner" style="width: 100%; height: 500px; object-fit: cover; display: block;" />
+
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: flex-start; padding: 2rem;">
+      <div style="background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0)); padding: 1.5rem; max-width: 600px; color: white;">
+        <h1 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+          Syla Analytics
+        </h1>
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.75rem; font-weight: 700; color: #FBBF24; margin-bottom: 0.5rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+          AI-Powered Data Platform
+        </h2>
+        <p style="font-size: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+          Automated data visualization, natural language forecasting, and intelligent file tools.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile Banner -->
+<section class="mobile-banner" style="width: 100%; background: #fff; padding: 1.5rem 1rem;">
+  <div style="position: relative; border-radius: 1.5rem; overflow: hidden;">
+    <img src="images/syla-banner.png" alt="Syla Analytics Banner" style="width: 100%; height: auto; object-fit: cover; border-radius: 1.5rem; display: block;" />
+
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 1rem;">
+      <div style="background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0)); padding: 1rem; border-radius: 0.75rem; max-width: 90%;">
+        <h1 style="font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+          Syla Analytics
+        </h1>
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: #FBBF24; margin-bottom: 0.5rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+          AI-Powered Data Platform
+        </h2>
+        <p style="font-size: 0.875rem; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+          Automated data visualization, natural language forecasting, and intelligent file tools.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<main>
+  <!-- Overview -->
+  <section>
+    <h2>Overview</h2>
+    <p>
+      Syla Analytics is an AI-powered data platform that automates chart generation, provides natural language forecasting, and offers intelligent file conversion tools. Built with React, FastAPI, and GPT-4, it eliminates the manual work of creating data visualizations and reports.
+    </p>
+  </section>
+
+  <!-- Problem & Solution -->
+  <section>
+    <h2>The Problem</h2>
+    <div class="problem-solution">
+      <div class="card problem-card">
+        <h3 style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">Current Challenges</h3>
+        <ul style="font-size: 1rem;">
+          <li>Popular analysis tools require manual chart creation for every dataset</li>
+          <li>No automated report generation from raw data</li>
+          <li>Forecasting requires specialized statistical knowledge</li>
+          <li>Expensive enterprise solutions ($500-$2000/month)</li>
+          <li>Time-consuming file format conversions</li>
+          <li>Complex setup and learning curves</li>
+        </ul>
+      </div>
+
+      <div class="card solution-card">
+        <h3 style="color: #16a34a; font-weight: 600; margin-bottom: 1rem;">Syla's Solution</h3>
+        <ul style="font-size: 1rem;">
+          <li>One-click automated chart generation from any CSV/Excel file</li>
+          <li>Natural language AI forecasting (no statistics required)</li>
+          <li>Affordable pricing: Free tier + $19-$99/month plans</li>
+          <li>Instant file conversions (PDF, Excel, CSV, Word)</li>
+          <li>Zero setup - upload and analyze immediately</li>
+          <li>85-95% forecast accuracy with GPT-4 + Prophet models</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Features -->
+  <section>
+    <h2>Key Features</h2>
+    <ol>
+      <li><strong>Automated Data Visualization:</strong> Upload CSV/Excel files up to 10MB. Syla automatically detects data types, cleans the data, and generates bar, line, pie, scatter, and area charts with zero configuration.</li>
+      <li><strong>AI-Powered Forecasting:</strong> Describe scenarios in plain English like "15% marketing increase next quarter" and get accurate forecasts using hybrid GPT-4 + Prophet models with 95% confidence intervals.</li>
+      <li><strong>Intelligent File Tools:</strong> Convert between PDF, Excel, CSV, and Word formats. Merge up to 15 PDFs. Compress files with 3 compression levels (10-70% reduction).</li>
+      <li><strong>Real-Time Collaboration:</strong> Share dashboards, export charts as PNG/SVG/PDF, and integrate via REST API with JWT authentication.</li>
+      <li><strong>Data Security:</strong> End-to-end encryption, PostgreSQL database with SQLAlchemy ORM, automatic data cleanup after 30 days.</li>
+    </ol>
+  </section>
+
+  <!-- Technology Stack -->
+  <section>
+    <h2>Technology Stack</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Technology</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Frontend</td>
+          <td>React 18, Chart.js, TailwindCSS, Vite</td>
+        </tr>
+        <tr>
+          <td>Backend</td>
+          <td>Python 3.11+, FastAPI, Pandas, Prophet</td>
+        </tr>
+        <tr>
+          <td>AI Models</td>
+          <td>OpenAI GPT-4o-mini, Prophet time-series</td>
+        </tr>
+        <tr>
+          <td>Database</td>
+          <td>PostgreSQL with SQLAlchemy ORM</td>
+        </tr>
+        <tr>
+          <td>Authentication</td>
+          <td>JWT tokens, Google OAuth 2.0</td>
+        </tr>
+        <tr>
+          <td>Deployment</td>
+          <td>Docker, Railway (backend), Vercel (frontend)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- How It Works -->
+  <section>
+    <h2>How It Works</h2>
+    <ol>
+      <li><strong>Upload:</strong> Drag and drop CSV or Excel files (up to 10MB)</li>
+      <li><strong>Auto-Process:</strong> Syla cleans data, detects types, generates summary statistics</li>
+      <li><strong>Visualize:</strong> Automatic chart generation with customizable options</li>
+      <li><strong>Forecast:</strong> Type natural language scenarios, get AI-powered predictions</li>
+      <li><strong>Export:</strong> Download charts, reports, or use REST API for integration</li>
+    </ol>
+  </section>
+
+  <!-- Use Cases -->
+  <section>
+    <h2>Use Cases</h2>
+    <ul>
+      <li><strong>Business Analytics:</strong> Sales forecasting, revenue trends, customer analysis</li>
+      <li><strong>Healthcare:</strong> Patient data visualization, epidemic modeling, resource planning</li>
+      <li><strong>Finance:</strong> Stock price prediction, portfolio analysis, risk assessment</li>
+      <li><strong>E-commerce:</strong> Demand forecasting, inventory optimization, conversion tracking</li>
+      <li><strong>Education:</strong> Student performance tracking, enrollment predictions</li>
+    </ul>
+  </section>
+
+  <!-- Pricing & Plans -->
+  <section>
+    <h2>Pricing</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Price</th>
+          <th>Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Free</td>
+          <td>$0/month</td>
+          <td>50 AI forecasts/month, 100 uploads/hour, 5 charts saved</td>
+        </tr>
+        <tr>
+          <td>Professional</td>
+          <td>$19/month</td>
+          <td>500 forecasts/month, unlimited uploads, priority support</td>
+        </tr>
+        <tr>
+          <td>Business</td>
+          <td>$99/month</td>
+          <td>Unlimited forecasts, API access, dedicated resources, SLA</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- API Integration -->
+  <section>
+    <h2>API Integration</h2>
+    <p>Syla provides a REST API with OpenAPI documentation. Example usage:</p>
+    <pre style="background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-size: 0.875rem;">
+curl -X POST "https://api.sylaanalytics.com/api/upload" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -F "file=@data.csv"
+
+# Response:
+{
+  "file_id": "1234567890_data.csv",
+  "rows": 1000,
+  "columns": ["Date", "Revenue"],
+  "data": [...]
+}
+    </pre>
+    <p style="margin-top: 1rem;">Rate limits: 100 requests/hour (free), 500/hour (professional), unlimited (business).</p>
+  </section>
+
+  <!-- Results & Impact -->
+  <section>
+    <h2>Results & Impact</h2>
+    <ul>
+      <li>95% reduction in time to create visualizations (5 minutes → 15 seconds)</li>
+      <li>85-95% forecast accuracy for short-term predictions (1-12 periods ahead)</li>
+      <li>$500-$1800/month cost savings vs. enterprise tools like Tableau, Power BI</li>
+      <li>Zero training required - intuitive interface for non-technical users</li>
+      <li>Supports 10MB files with 100,000+ rows efficiently</li>
+    </ul>
+  </section>
+
+  <!-- Call to Action -->
+  <section style="text-align: center; padding: 2rem; background: #f9fafb; border-radius: 1rem; margin-top: 2rem;">
+    <h2>Ready to Transform Your Data Workflow?</h2>
+    <p style="margin-bottom: 1.5rem;">Start analyzing your data in seconds with AI-powered automation.</p>
+    <a href="https://sylaanalytics.com" target="_blank" class="cta-button">
+      Try Syla Analytics Free →
+    </a>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <p>Syla Analytics is built with cutting-edge AI technology to make data analysis accessible and affordable for everyone.</p>
+  <div class="social-icons">
+    <a href="https://www.linkedin.com/in/esiah-kapinga" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn"></a>
+    <a href="https://github.com/esiiah" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"></a>
+    <a href="https://www.instagram.com/esiah_kapinga" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+    <a href="https://youtube.com/esiah.1" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+  </div>
+  <p style="margin-top:0.5rem;">&copy; 2025 Esiah Kapinga - Syla Analytics Project</p>
+</footer>
+</body>
+</html>
