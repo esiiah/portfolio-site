@@ -1,3 +1,4 @@
+<-- facility.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,58 +10,73 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style> 
-    body{background:#f3f4f6;font-family:Inter,system-ui;} 
+    body{background:#f3f4f6;font-family:Inter,system-ui;margin:0;padding:0;} 
     .card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)} 
-    #facilityMap{height:280px;border-radius:8px;}
+    #facilityMap{height:280px;border-radius:8px;width:100%;}
     .small-muted{color:#6b7280;font-size:13px;}
     .stat-card{background:#f0f9ff;padding:12px;border-radius:6px;border-left:4px solid #0ea5e9;}
+    .chart-container{position:relative;height:280px;width:100%;}
+    
+    @media (max-width:1024px){
+      .card{padding:12px;}
+      .chart-container{height:240px;}
+      #facilityMap{height:240px;}
+    }
+    @media (max-width:640px){
+      .chart-container{height:220px;}
+      #facilityMap{height:200px;}
+      .stat-card{padding:10px;}
+      .small-muted{font-size:11px;}
+    }
   </style>
 </head>
 <body>
-  <div class="max-w-5xl mx-auto p-6">
+  <div class="max-w-5xl mx-auto p-4 md:p-6">
     <a href="Dhis2_dashboard.html" class="text-sm underline text-blue-600 hover:text-blue-800">&larr; Back to dashboard</a>
-    <h1 class="text-2xl font-semibold mt-4">Facility Profile (Demo)</h1>
+    <h1 class="text-xl md:text-2xl font-semibold mt-4">Facility Profile (Demo)</h1>
     
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mt-4">
       <div class="lg:col-span-2 card">
-        <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-start md:items-center justify-between flex-col md:flex-row gap-3 md:gap-4">
           <div>
-            <h2 id="facName" class="text-lg font-semibold">—</h2>
+            <h2 id="facName" class="text-base md:text-lg font-semibold">—</h2>
             <div id="facDistrict" class="small-muted">—</div>
           </div>
-          <div id="facKPIs" class="text-right">
+          <div id="facKPIs" class="text-left md:text-right">
             <div class="text-sm small-muted">Latest Month</div>
-            <div id="facCases" class="text-xl font-bold">—</div>
+            <div id="facCases" class="text-lg md:text-xl font-bold">—</div>
             <div id="facPos" class="small-muted">Positivity: —</div>
           </div>
         </div>
 
         <div class="mt-4">
-          <h3 class="font-semibold mb-2">12-Month Trend</h3>
-          <canvas id="facTimeSeries" style="height:260px"></canvas>
+          <h3 class="font-semibold mb-3 text-sm md:text-base">12-Month Trend</h3>
+          <div class="chart-container">
+            <canvas id="facTimeSeries"></canvas>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 mt-4">
           <div class="stat-card">
             <div class="small-muted">Total Tests (12m)</div>
-            <div id="totalTests" class="text-xl font-bold">—</div>
+            <div id="totalTests" class="text-lg md:text-xl font-bold">—</div>
           </div>
           <div class="stat-card">
             <div class="small-muted">Avg Positivity (12m)</div>
-            <div id="avgPositivity" class="text-xl font-bold">—</div>
+            <div id="avgPositivity" class="text-lg md:text-xl font-bold">—</div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <h3 class="font-semibold mb-2">Location</h3>
+        <h3 class="font-semibold mb-3 text-sm md:text-base">Location</h3>
         <div id="facilityMap"></div>
         <div class="mt-3 small-muted">Facility coordinates</div>
       </div>
     </div>
 
-    <div class="card mt-6">
-      <h3 class="font-semibold">Interpretation & Recommended Actions</h3>
+    <div class="card mt-4 md:mt-6">
+      <h3 class="font-semibold text-sm md:text-base">Interpretation & Recommended Actions</h3>
       <ul class="list-disc list-inside small-muted mt-3 space-y-1">
         <li>If positivity spikes above 20% → investigate testing strategy & potential stockouts</li>
         <li>If reporting completeness drops below 80% → follow up with facility in-charge</li>
@@ -71,6 +87,8 @@
   </div>
 
 <script>
+let facChart = null;
+
 async function init() {
   try {
     const res = await fetch('malaria_facility_demo.json');
@@ -109,7 +127,12 @@ async function init() {
     const tested = rows.map(r=>r.tested);
     const positive = rows.map(r=>r.positive);
     
-    new Chart(document.getElementById('facTimeSeries'), {
+    const ctx = document.getElementById('facTimeSeries');
+    if (facChart) {
+      facChart.destroy();
+    }
+    
+    facChart = new Chart(ctx, {
       type:'line',
       data:{ 
         labels, 
@@ -120,7 +143,8 @@ async function init() {
             borderColor:'#60a5fa', 
             backgroundColor:'rgba(96,165,250,0.1)',
             fill:true,
-            tension:0.3
+            tension:0.3,
+            borderWidth:2
           },
           {
             label:'Positive', 
@@ -128,7 +152,8 @@ async function init() {
             borderColor:'#fb7185',
             backgroundColor:'rgba(251,113,133,0.1)', 
             fill:true,
-            tension:0.3
+            tension:0.3,
+            borderWidth:2
           }
         ] 
       },
@@ -161,12 +186,17 @@ async function init() {
       .addTo(map)
       .bindPopup(`<strong>${meta.facility}</strong><br>${meta.district}`)
       .openPopup();
+      
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
   } catch (error) {
     console.error('Error loading facility data:', error);
     alert('Error loading facility data. Please try again.');
   }
 }
-init();
+
+window.addEventListener('load', init);
 </script>
 </body>
 </html>
