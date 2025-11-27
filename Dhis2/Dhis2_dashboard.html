@@ -1,3 +1,4 @@
+<!-- Dhis2_dashboard.html-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,19 +17,35 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
-    body { background:#f3f4f6; font-family: Inter, system-ui, sans-serif; }
-    .desktop-frame { max-width:1200px; margin:36px auto; }
+    body { background:#f3f4f6; font-family: Inter, system-ui, sans-serif; margin:0; padding:0; }
+    .desktop-frame { max-width:1200px; margin:20px auto; padding:0 12px; }
     .window { background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.12); overflow: hidden; }
-    .window-header { display:flex; align-items:center; gap:12px; padding:10px 16px; background:linear-gradient(90deg,#0ea5e9,#06b6d4); color:white; }
-    .control-dot { width:12px; height:12px; border-radius:999px; display:inline-block; }
+    .window-header { display:flex; align-items:center; gap:12px; padding:10px 16px; background:linear-gradient(90deg,#0ea5e9,#06b6d4); color:white; flex-wrap:wrap; }
+    .control-dot { width:12px; height:12px; border-radius:999px; display:inline-block; flex-shrink:0; }
     .dot-red { background:#ef4444 } .dot-yellow { background:#f59e0b } .dot-green { background:#10b981 }
     .kpi { background:#fff; border-radius:8px; padding:12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-    #map { height:420px; border-radius:8px; overflow:hidden; }
-    .alert-badge { background:#ef4444; color:white; padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+    .chart-container { position:relative; height:280px; width:100%; }
+    .facility-chart-container { position:relative; height:160px; width:100%; }
+    #map { height:380px; border-radius:8px; overflow:hidden; width:100%; }
+    .alert-badge { background:#ef4444; color:white; padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; display:inline-block; }
     .small-muted { color:#6b7280; font-size:13px; }
-    .loading { opacity: 0.5; pointer-events: none; }
     .error-message { color:#ef4444; font-size:13px; padding:8px; background:#fee; border-radius:4px; margin-top:8px; }
-    @media (max-width:900px){ .desktop-frame{padding:12px} #map{height:300px} .kpi{padding:8px} }
+    
+    @media (max-width:1024px){ 
+      .desktop-frame{padding:0 8px; margin:10px auto;} 
+      .chart-container{height:240px;}
+      #map{height:300px} 
+      .kpi{padding:10px}
+      .window-header{font-size:14px;}
+    }
+    @media (max-width:640px){ 
+      .chart-container{height:220px;}
+      .facility-chart-container{height:140px;}
+      #map{height:250px}
+      .window-header{padding:8px 12px;}
+      .window-header h1{font-size:14px !important;}
+      .small-muted{font-size:11px;}
+    }
   </style>
 </head>
 <body>
@@ -38,73 +55,84 @@
         <span class="control-dot dot-red"></span>
         <span class="control-dot dot-yellow"></span>
         <span class="control-dot dot-green"></span>
-        <h1 class="ml-2 text-lg font-semibold">DHIS2 – Zambia Malaria Analytics (Demo)</h1>
-        <div class="ml-auto small-muted">Data source: WHO GHO API (ZMB) • Demo facility JSON</div>
+        <h1 class="ml-2 text-base md:text-lg font-semibold">DHIS2 – Zambia Malaria Analytics (Demo)</h1>
+        <div class="ml-auto small-muted hidden md:block">Data source: WHO GHO API (ZMB) • Demo facility JSON</div>
       </div>
 
-      <div class="p-6 grid grid-cols-12 gap-6">
+      <div class="p-4 md:p-6 grid grid-cols-12 gap-4 md:gap-6">
         <!-- Left column: KPIs & Charts -->
         <div class="col-span-12 lg:col-span-8 space-y-4">
           <!-- KPIs row -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
             <div class="kpi">
               <div class="small-muted">Total Confirmed Cases (Year)</div>
-              <div id="kpi-cases" class="text-2xl font-bold">—</div>
+              <div id="kpi-cases" class="text-xl md:text-2xl font-bold">—</div>
             </div>
             <div class="kpi">
               <div class="small-muted">Test Positivity (%)</div>
-              <div id="kpi-positivity" class="text-2xl font-bold">—</div>
+              <div id="kpi-positivity" class="text-xl md:text-2xl font-bold">—</div>
             </div>
             <div class="kpi">
               <div class="small-muted">Incidence per 1,000</div>
-              <div id="kpi-incidence" class="text-2xl font-bold">—</div>
+              <div id="kpi-incidence" class="text-xl md:text-2xl font-bold">—</div>
             </div>
           </div>
 
           <!-- National time series -->
-          <div class="kpi mt-2">
-            <div class="flex items-center justify-between">
-              <div><strong>National Time Series</strong> <div class="small-muted">Confirmed cases – monthly trend</div></div>
+          <div class="kpi">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <strong class="text-sm md:text-base">National Time Series</strong> 
+                <div class="small-muted">Confirmed cases – monthly trend</div>
+              </div>
               <div id="national-alert" class="alert-badge" style="display:none">ALERT</div>
             </div>
-            <canvas id="nationalChart" style="height:260px"></canvas>
+            <div class="chart-container">
+              <canvas id="nationalChart"></canvas>
+            </div>
             <div id="chart-error" class="error-message" style="display:none"></div>
           </div>
 
           <!-- Map -->
-          <div class="kpi mt-2">
-            <div class="flex items-center justify-between">
-              <div><strong>District Map – Zambia</strong> <div class="small-muted">Health facility locations</div></div>
-              <a class="small-muted underline" href="facility.html">Open facility explorer</a>
+          <div class="kpi">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <strong class="text-sm md:text-base">District Map – Zambia</strong> 
+                <div class="small-muted">Health facility locations</div>
+              </div>
+              <a class="small-muted underline hover:text-blue-600" href="facility.html">Open facility explorer</a>
             </div>
-            <div id="map" class="mt-3"></div>
+            <div id="map"></div>
           </div>
         </div>
 
         <!-- Right column: Facility explorer & Data Quality -->
         <div class="col-span-12 lg:col-span-4 space-y-4">
           <div class="kpi">
-            <div class="flex items-center justify-between">
-              <div><strong>Facility Explorer</strong><div class="small-muted">Sample facility-level view (demo JSON)</div></div>
+            <div class="mb-3">
+              <strong class="text-sm md:text-base">Facility Explorer</strong>
+              <div class="small-muted">Sample facility-level view (demo JSON)</div>
+            </div>
+            <div>
+              <label class="small-muted block mb-1">Select Facility</label>
+              <select id="facilitySelect" class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none focus:border-blue-500"></select>
             </div>
             <div class="mt-3">
-              <label class="small-muted block mb-1">Select Facility</label>
-              <select id="facilitySelect" class="w-full border rounded p-2 text-sm"></select>
-            </div>
-            <div id="facilityMini" class="mt-3">
-              <canvas id="facilityChart" style="height:140px"></canvas>
-              <div class="mt-2 small-muted">Select a facility to view trends</div>
+              <div class="facility-chart-container">
+                <canvas id="facilityChart"></canvas>
+              </div>
+              <div class="mt-2 small-muted text-center">Select a facility to view trends</div>
             </div>
           </div>
 
           <div class="kpi">
-            <strong>Data Quality</strong>
+            <strong class="text-sm md:text-base">Data Quality</strong>
             <div class="small-muted mt-1">Completeness & Timeliness (demo)</div>
             <div id="dqList" class="mt-3 space-y-2 max-h-48 overflow-y-auto"></div>
           </div>
 
           <div class="kpi">
-            <strong>Key Findings</strong>
+            <strong class="text-sm md:text-base">Key Findings</strong>
             <ul class="small-muted list-disc list-inside mt-2 space-y-1">
               <li id="finding-1">Loading analytics...</li>
             </ul>
@@ -179,45 +207,46 @@ function renderNationalChart(ts) {
   const labels = ts.map(x => x.month || '');
   const data = ts.map(x => Number(x.value || 0));
   
-  if (!nationalChart) {
-    nationalChart = new Chart($('nationalChart'), {
-      type:'line',
-      data:{ 
-        labels, 
-        datasets:[{
-          label:'Confirmed cases', 
-          data, 
-          borderColor:'#0ea5e9',
-          backgroundColor:'rgba(14,165,233,0.1)',
-          borderWidth:2, 
-          tension:0.3, 
-          fill:true
-        }] 
-      },
-      options:{ 
-        responsive:true, 
-        maintainAspectRatio:false,
-        plugins:{
-          legend:{display:false},
-          tooltip:{
-            callbacks:{
-              label: ctx => `Cases: ${ctx.parsed.y.toLocaleString()}`
-            }
-          }
-        },
-        scales:{
-          y:{
-            beginAtZero:true,
-            ticks:{ callback: val => val.toLocaleString() }
+  const ctx = $('nationalChart');
+  if (!ctx) return;
+  
+  if (nationalChart) {
+    nationalChart.destroy();
+  }
+  
+  nationalChart = new Chart(ctx, {
+    type:'line',
+    data:{ 
+      labels, 
+      datasets:[{
+        label:'Confirmed cases', 
+        data, 
+        borderColor:'#0ea5e9',
+        backgroundColor:'rgba(14,165,233,0.1)',
+        borderWidth:2, 
+        tension:0.3, 
+        fill:true
+      }] 
+    },
+    options:{ 
+      responsive:true, 
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label: ctx => `Cases: ${ctx.parsed.y.toLocaleString()}`
           }
         }
+      },
+      scales:{
+        y:{
+          beginAtZero:true,
+          ticks:{ callback: val => val.toLocaleString() }
+        }
       }
-    });
-  } else {
-    nationalChart.data.labels = labels;
-    nationalChart.data.datasets[0].data = data;
-    nationalChart.update();
-  }
+    }
+  });
 }
 
 /* ========= MAP INITIALIZATION ========= */
@@ -238,6 +267,10 @@ async function initMap() {
   } catch(e) {
     console.error("Zambia geo load failed", e);
   }
+  
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 100);
 }
 
 function updateMapMarkers() {
@@ -281,12 +314,13 @@ async function loadFacilityDemo() {
 }
 
 function renderFacilityMini(fid) {
+  const ctx = $('facilityChart');
+  if (!ctx) return;
+  
   if(!fid) {
     if (facilityChart) { 
-      facilityChart.data.labels=[]; 
-      facilityChart.data.datasets[0].data=[]; 
-      facilityChart.data.datasets[1].data=[]; 
-      facilityChart.update(); 
+      facilityChart.destroy();
+      facilityChart = null;
     }
     return;
   }
@@ -296,29 +330,31 @@ function renderFacilityMini(fid) {
   const tested = rows.map(r=> r.tested);
   const positive = rows.map(r=> r.positive);
   
-  if (!facilityChart) {
-    facilityChart = new Chart($('facilityChart'), {
-      type:'bar',
-      data:{ 
-        labels, 
-        datasets:[
-          {label:'Tested', data:tested, backgroundColor:'#60a5fa'},
-          {label:'Positive', data:positive, backgroundColor:'#fb7185'}
-        ]
-      },
-      options:{ 
-        indexAxis:'x', 
-        responsive:true, 
-        maintainAspectRatio:false,
-        plugins:{legend:{position:'bottom', labels:{boxWidth:12, font:{size:10}}}}
-      }
-    });
-  } else {
-    facilityChart.data.labels = labels;
-    facilityChart.data.datasets[0].data = tested;
-    facilityChart.data.datasets[1].data = positive;
-    facilityChart.update();
+  if (facilityChart) {
+    facilityChart.destroy();
   }
+  
+  facilityChart = new Chart(ctx, {
+    type:'bar',
+    data:{ 
+      labels, 
+      datasets:[
+        {label:'Tested', data:tested, backgroundColor:'#60a5fa'},
+        {label:'Positive', data:positive, backgroundColor:'#fb7185'}
+      ]
+    },
+    options:{ 
+      indexAxis:'x', 
+      responsive:true, 
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom', labels:{boxWidth:12, font:{size:10}}}
+      },
+      scales:{
+        y:{beginAtZero:true}
+      }
+    }
+  });
 }
 
 /* ========= DATA QUALITY ========= */
@@ -336,8 +372,8 @@ function renderDataQuality() {
     const months = info.months.size;
     const completeness = (months/12*100).toFixed(0);
     const el = document.createElement('div');
-    el.className = 'text-xs';
-    el.innerHTML = `<div><strong>${info.facility}</strong></div><div class="small-muted">Completeness: ${completeness}% (${months}/12 months)</div>`;
+    el.className = 'text-xs pb-2 border-b border-gray-100';
+    el.innerHTML = `<div class="font-semibold">${info.facility}</div><div class="small-muted">Completeness: ${completeness}% (${months}/12 months)</div>`;
     dqList.appendChild(el);
   }
 }
@@ -401,7 +437,7 @@ async function init() {
   }
 }
 
-init();
+window.addEventListener('load', init);
 </script>
 </body>
 </html>
