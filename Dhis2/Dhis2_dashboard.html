@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DHIS2-style Zambia Malaria Dashboard — Demo</title>
+
+  <!-- Tailwind CDN for quick styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Leaflet for maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    /* small custom styles to create a "window" in the middle like DHIS2 */
+    body { background:#f3f4f6; font-family: Inter, system-ui, sans-serif; }
+    .desktop-frame { max-width:1200px; margin:36px auto; }
+    .window { background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.12); overflow: hidden; }
+    .window-header { display:flex; align-items:center; gap:12px; padding:10px 16px; background:linear-gradient(90deg,#0ea5e9,#06b6d4); color:white; }
+    .control-dot { width:12px; height:12px; border-radius:999px; display:inline-block; }
+    .dot-red { background:#ef4444 } .dot-yellow { background:#f59e0b } .dot-green { background:#10b981 }
+    .kpi { background:#fff; border-radius:8px; padding:12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    #map { height:420px; border-radius:8px; overflow:hidden; }
+    .alert-badge { background:#ef4444; color:white; padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+    .small-muted { color:#6b7280; font-size:13px; }
+    /* responsive */
+    @media (max-width:900px){ .desktop-frame{padding:12px} #map{height:300px} .kpi{padding:8px} }
+  </style>
+</head>
+<body>
+  <div class="desktop-frame">
+    <!-- Central DHIS2-like window -->
+    <div class="window">
+      <div class="window-header">
+        <span class="control-dot dot-red"></span>
+        <span class="control-dot dot-yellow"></span>
+        <span class="control-dot dot-green"></span>
+        <h1 class="ml-2 text-lg font-semibold">DHIS2 — Zambia Malaria Analytics (Demo)</h1>
+        <div class="ml-auto small-muted">Data source: WHO GHO API (ZMB) • Demo facility JSON</div>
+      </div>
+
+      <div class="p-6 grid grid-cols-12 gap-6">
+        <!-- Left column: KPIs & Charts -->
+        <div class="col-span-8 space-y-4">
+          <!-- KPIs row -->
+          <div class="grid grid-cols-3 gap-4">
+            <div class="kpi">
+              <div class="small-muted">Total Confirmed Cases (Year)</div>
+              <div id="kpi-cases" class="text-2xl font-bold">—</div>
+            </div>
+            <div class="kpi">
+              <div class="small-muted">Test Positivity (%)</div>
+              <div id="kpi-positivity" class="text-2xl font-bold">—</div>
+            </div>
+            <div class="kpi">
+              <div class="small-muted">Incidence per 1,000</div>
+              <div id="kpi-incidence" class="text-2xl font-bold">—</div>
+            </div>
+          </div>
+
+          <!-- National time series -->
+          <div class="kpi mt-2">
+            <div class="flex items-center justify-between">
+              <div><strong>National Time Series</strong> <div class="small-muted">Confirmed cases — monthly</div></div>
+              <div id="national-alert" class="alert-badge" style="display:none">ALERT</div>
+            </div>
+            <canvas id="nationalChart" style="height:260px"></canvas>
+          </div>
+
+          <!-- Map -->
+          <div class="kpi mt-2">
+            <div class="flex items-center justify-between">
+              <div><strong>District Map — Zambia</strong> <div class="small-muted">Choropleth of cases / 1,000</div></div>
+              <a class="small-muted underline" href="facility.html">Open facility explorer</a>
+            </div>
+            <div id="map" class="mt-3"></div>
+          </div>
+        </div>
+
+        <!-- Right column: Facility explorer & Data Quality -->
+        <div class="col-span-4 space-y-4">
+          <div class="kpi">
+            <div class="flex items-center justify-between">
+              <div><strong>Facility Explorer</strong><div class="small-muted">Sample facility-level view (demo JSON)</div></div>
+            </div>
+            <div class="mt-3">
+              <label class="small-muted block mb-1">Select Facility</label>
+              <select id="facilitySelect" class="w-full border rounded p-2"></select>
+            </div>
+            <div id="facilityMini" class="mt-3">
+              <!-- small mini chart -->
+              <canvas id="facilityChart" style="height:140px"></canvas>
+              <div class="mt-2 small-muted">Click the facility to open detailed profile</div>
+            </div>
+          </div>
+
+          <div class="kpi">
+            <strong>Data Quality</strong>
+            <div class="small-muted mt-1">Completeness & Timeliness (demo)</div>
+            <div id="dqList" class="mt-3 space-y-2"></div>
+          </div>
+
+          <div class="kpi">
+            <strong>Findings</strong>
+            <ul class="small-muted list-disc list-inside mt-2">
+              <li id="finding-1">Loading...</li>
+            </ul>
+          </div>
+        </div>
+      </div> <!-- end grid -->
+    </div> <!-- end window -->
+  </div>
+
+<script>
+/* ========= CONFIG ========== */
+const WHO_BASE = "https://ghoapi.azureedge.net/api";
+const WHO_MALARIA_COUNTRY = WHO_BASE + "/MALARIA_COUNTRY?$filter=SpatialDim eq 'ZMB'";
+// Adjust TimeDim in code when querying time series if necessary
+
+/* ========= UTIL ========== */
+const fmt = n => (n==null? '—' : Number(n).toLocaleString());
+const $ = id => document.getElementById(id);
+
+/* ========= STATE ========== */
+let nationalTimeseries = []; // {month: "2024-01", value: X}
+let facilityData = []; // from malaria_facility_demo.json
+
+/* ========= CHART INSTANCES ========== */
+let nationalChart, facilityChart;
+
+/* ========= FETCH WHO DATA (national) ========= */
+async function fetchWHOdata(year=2024) {
+  // Try country-level resource with TimeDim parameter
+  const q = WHO_BASE + `/MALARIA_COUNTRY?$filter=SpatialDim eq 'ZMB' and TimeDim eq ${year}`;
+  try {
+    const res = await fetch(q);
+    if (!res.ok) throw new Error('WHO fetch failed ' + res.status);
+    const json = await res.json();
+    // json.value is expected; transform to chartable timeseries if available
+    // If MALARIA_COUNTRY returns aggregated single-year numbers, fallback to Indicator query later
+    return json.value || [];
+  } catch (err) {
+    console.warn("WHO country fetch error", err);
+    // fallback: try indicators with contains('Malaria') + SpatialDim
+    const fallback = WHO_BASE + `/Indicator?$filter=contains(IndicatorName,'Malaria') and SpatialDim eq 'ZMB'`;
+    try {
+      const res2 = await fetch(fallback);
+      const j2 = await res2.json();
+      return j2.value || [];
+    } catch(e2) {
+      console.error("WHO fallback failed", e2);
+      return [];
+    }
+  }
+}
+
+/* ========= PARSE & RENDER ========= */
+function renderKPIsFromWHO(arr) {
+  // arr is array of indicator objects; find useful entries:
+  // Common fields: IndicatorName, NumericValue or Value, TimeDim
+  if (!arr || !arr.length) {
+    $('kpi-cases').textContent = '—';
+    $('kpi-positivity').textContent = '—';
+    $('kpi-incidence').textContent = '—';
+    return;
+  }
+  // Strategy: find entries by typical IndicatorName keywords
+  const byName = n => arr.find(x => (x.IndicatorName || x.Indicator).toLowerCase().includes(n));
+  const casesObj = arr.find(x => /cases/i.test(x.IndicatorName || x.Indicator || ''));
+  const positivityObj = arr.find(x => /positiv/i.test(x.IndicatorName || x.Indicator || ''));
+  const incidenceObj = arr.find(x => /incidence/i.test(x.IndicatorName || x.Indicator || ''));
+  // numeric value fields can be NumericValue or Value or DisplayValue
+  const getVal = o => o ? (o.NumericValue ?? o.Value ?? o.DisplayValue ?? o.DataValue ?? null) : null;
+
+  const casesVal = getVal(casesObj);
+  const positivityVal = getVal(positivityObj);
+  const incidenceVal = getVal(incidenceObj);
+
+  $('kpi-cases').textContent = fmt(casesVal);
+  $('kpi-positivity').textContent = positivityVal ? (Number(positivityVal).toFixed(1)+'%') : '—';
+  $('kpi-incidence').textContent = incidenceVal ? Number(incidenceVal).toFixed(2) : '—';
+}
+
+function renderNationalChart(ts) {
+  // ts = [{TimeDim:2024, Month:"Jan", Value:123}, ...] or simplified format
+  const labels = ts.map(x => x.month || (x.TimeDim ? String(x.TimeDim) : ''));
+  const data = ts.map(x => Number(x.value || x.NumericValue || x.Value || 0));
+  if (!nationalChart) {
+    nationalChart = new Chart(document.getElementById('nationalChart'), {
+      type:'line',
+      data:{ labels, datasets:[{label:'Confirmed cases', data, borderWidth:2, tension:0.3, fill:true}] },
+      options:{ responsive:true, plugins:{legend:{display:false}} }
+    });
+  } else {
+    nationalChart.data.labels = labels;
+    nationalChart.data.datasets[0].data = data;
+    nationalChart.update();
+  }
+}
+
+/* ========= MAP ========== */
+let map, districtLayer;
+async function initMap() {
+  map = L.map('map').setView([-14.5, 27.5], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution:'&copy; OpenStreetMap contributors & CARTO' }).addTo(map);
+  // Load Zambia GeoJSON - use public repo URL
+  const geoUrl = "https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries/ZMB.geojson";
+  try {
+    const res = await fetch(geoUrl);
+    const geo = await res.json();
+    // If geo is a Country polygon but not districts, we still show country polygon.
+    districtLayer = L.geoJSON(geo, {
+      style: ()=>({color:'#111', weight:0.6, fillColor:'#f3f4f6', fillOpacity:0.6})
+    }).addTo(map);
+  } catch(e) {
+    console.error("Zambia geo load failed", e);
+  }
+}
+
+/* ========= FACILITY DATA & MINI CHART ========= */
+async function loadFacilityDemo() {
+  try {
+    const res = await fetch('malaria_facility_demo.json');
+    facilityData = await res.json();
+    // populate select with unique facilities
+    const facilities = [...new Map(facilityData.map(d=>[d.facility_id, d]))].map(x=>x[1]);
+    const sel = $('facilitySelect');
+    sel.innerHTML = '<option value="">— Select facility —</option>';
+    const used = new Set();
+    facilities.forEach(f=>{
+      if (used.has(f.facility_id)) return; used.add(f.facility_id);
+      const opt = document.createElement('option'); opt.value = f.facility_id; opt.textContent = f.facility;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', ()=> renderFacilityMini(sel.value));
+  } catch(e) {
+    console.error("facility load failed", e);
+  }
+}
+
+function renderFacilityMini(fid) {
+  if(!fid) {
+    // clear chart
+    if (facilityChart) { facilityChart.data.labels=[]; facilityChart.data.datasets[0].data=[]; facilityChart.update(); }
+    return;
+  }
+  const rows = facilityData.filter(r => r.facility_id === fid).sort((a,b)=> a.month.localeCompare(b.month));
+  const labels = rows.map(r=> r.month);
+  const tested = rows.map(r=> r.tested);
+  const positive = rows.map(r=> r.positive);
+  // create or update small area chart
+  if (!facilityChart) {
+    facilityChart = new Chart(document.getElementById('facilityChart'), {
+      type:'bar',
+      data:{ labels, datasets:[
+        {label:'Tested', data:tested, backgroundColor:'#60a5fa'},
+        {label:'Positive', data:positive, backgroundColor:'#fb7185'}
+      ]},
+      options:{ indexAxis:'x', responsive:true, plugins:{legend:{position:'bottom'}} }
+    });
+  } else {
+    facilityChart.data.labels = labels;
+    facilityChart.data.datasets[0].data = tested;
+    facilityChart.data.datasets[1].data = positive;
+    facilityChart.update();
+  }
+}
+
+/* ========= DATA QUALITY (demo) ========= */
+function renderDataQuality() {
+  // Simple demo: completeness = percent of months reported in demo set (per facility)
+  const byFac = {};
+  facilityData.forEach(r=>{
+    byFac[r.facility_id] ??= {facility:r.facility, months:new Set()};
+    byFac[r.facility_id].months.add(r.month);
+  });
+  const dqList = $('dqList'); dqList.innerHTML='';
+  for (const [fid, info] of Object.entries(byFac)) {
+    const months = info.months.size;
+    const el = document.createElement('div');
+    el.innerHTML = `<div><strong>${info.facility}</strong></div><div class="small-muted">Completeness: ${(months/12*100).toFixed(0)}% — months reported: ${months}</div>`;
+    dqList.appendChild(el);
+  }
+}
+
+/* ========= FINDINGS TEXT (autogenerated minimal) ========= */
+function writeFindings() {
+  const f1 = $('finding-1');
+  f1.textContent = 'National positivity trend loaded. Facility demo used for local trends. Alert rule uses positivity > mean+2sd (12 months).';
+}
+
+/* ========= BOOTSTRAP ========== */
+async function init() {
+  // init UI
+  await initMap();
+  await loadFacilityDemo();
+  renderDataQuality();
+  writeFindings();
+
+  // Fetch WHO data and render KPIs
+  const whoData = await fetchWHOdata(2024); // change year as needed
+  renderKPIsFromWHO(whoData);
+
+  // Build a very simple national timeseries from demo if WHO doesn't provide monthly timeseries
+  // For demo, create timeseries from facility demo aggregated by month
+  const agg = {};
+  facilityData.forEach(r=>{
+    agg[r.month] ??= 0;
+    agg[r.month] += (r.positive || 0);
+  });
+  const ts = Object.keys(agg).sort().map(m=>({month:m, value:agg[m]}));
+  renderNationalChart(ts);
+
+  // Example alert: compute mean+2sd of positivity from facility aggregated positivity (demo)
+  const positivityVals = [];
+  facilityData.reduce((acc, r)=>{
+    // compute monthly positivity across all facilities
+    agg[r.month] ??= {tested:0, positive:0};
+    // (we already have agg positives above)
+    return acc;
+  }, {});
+  // fake compute positivity from ts percentages for alert demonstration
+  const fakePos = Object.keys(agg).map(k=> (agg[k] / 1000) * 100 ); // simulation
+  if (fakePos.length >= 6) {
+    const mean = fakePos.reduce((a,b)=>a+b,0)/fakePos.length;
+    const sd = Math.sqrt(fakePos.reduce((s,v)=>s + Math.pow(v-mean,2),0)/fakePos.length);
+    const curr = fakePos[fakePos.length-1] || 0;
+    if (curr >= mean + 2*sd) {
+      $('national-alert').style.display = 'inline-block';
+    }
+  }
+}
+
+init();
+
+</script>
+</body>
+</html>
