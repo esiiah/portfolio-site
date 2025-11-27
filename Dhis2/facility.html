@@ -1,81 +1,170 @@
-<!-- facility.html  --> 
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Facility Profile — DHIS2 Demo</title>
+  <title>Facility Profile – DHIS2 Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <style> body{background:#f3f4f6;font-family:Inter,system-ui;} .card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)} #facilityMap{height:280px}</style>
+  <style> 
+    body{background:#f3f4f6;font-family:Inter,system-ui;} 
+    .card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)} 
+    #facilityMap{height:280px;border-radius:8px;}
+    .small-muted{color:#6b7280;font-size:13px;}
+    .stat-card{background:#f0f9ff;padding:12px;border-radius:6px;border-left:4px solid #0ea5e9;}
+  </style>
 </head>
 <body>
   <div class="max-w-5xl mx-auto p-6">
-    <a href="index.html" class="text-sm underline">&larr; Back to dashboard</a>
+    <a href="Dhis2_dashboard.html" class="text-sm underline text-blue-600 hover:text-blue-800">&larr; Back to dashboard</a>
     <h1 class="text-2xl font-semibold mt-4">Facility Profile (Demo)</h1>
-    <div class="grid grid-cols-3 gap-6 mt-4">
-      <div class="col-span-2 card">
-        <div class="flex items-center justify-between">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+      <div class="lg:col-span-2 card">
+        <div class="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h2 id="facName" class="text-lg font-semibold">—</h2>
             <div id="facDistrict" class="small-muted">—</div>
           </div>
           <div id="facKPIs" class="text-right">
-            <div class="text-sm small-muted">Latest month</div>
+            <div class="text-sm small-muted">Latest Month</div>
             <div id="facCases" class="text-xl font-bold">—</div>
             <div id="facPos" class="small-muted">Positivity: —</div>
           </div>
         </div>
 
         <div class="mt-4">
+          <h3 class="font-semibold mb-2">12-Month Trend</h3>
           <canvas id="facTimeSeries" style="height:260px"></canvas>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <div class="stat-card">
+            <div class="small-muted">Total Tests (12m)</div>
+            <div id="totalTests" class="text-xl font-bold">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="small-muted">Avg Positivity (12m)</div>
+            <div id="avgPositivity" class="text-xl font-bold">—</div>
+          </div>
         </div>
       </div>
 
       <div class="card">
+        <h3 class="font-semibold mb-2">Location</h3>
         <div id="facilityMap"></div>
-        <div class="mt-3 small-muted">Facility location (demo)</div>
+        <div class="mt-3 small-muted">Facility coordinates</div>
       </div>
     </div>
 
     <div class="card mt-6">
-      <h3 class="font-semibold">Interpretation & Actions</h3>
-      <ul class="list-disc list-inside small-muted mt-2">
-        <li id="action-1">If positivity spikes -> investigate testing strategy & stockouts.</li>
-        <li id="action-2">If reporting completeness < 80% -> follow-up to facility in-charge.</li>
+      <h3 class="font-semibold">Interpretation & Recommended Actions</h3>
+      <ul class="list-disc list-inside small-muted mt-3 space-y-1">
+        <li>If positivity spikes above 20% → investigate testing strategy & potential stockouts</li>
+        <li>If reporting completeness drops below 80% → follow up with facility in-charge</li>
+        <li>Monitor monthly trends for early detection of outbreaks</li>
+        <li>Compare with district averages to identify high-burden facilities</li>
       </ul>
     </div>
   </div>
 
 <script>
 async function init() {
-  // load demo data and pick first facility (or read query param)
-  const res = await fetch('malaria_facility_demo.json'); const data = await res.json();
-  const params = new URLSearchParams(location.search); const facility = params.get('id') || data[0].facility_id;
-  const rows = data.filter(r=> r.facility_id === facility).sort((a,b)=> a.month.localeCompare(b.month));
-  const meta = rows[0];
-  document.getElementById('facName').textContent = meta.facility;
-  document.getElementById('facDistrict').textContent = meta.district;
-  const latest = rows[rows.length-1];
-  document.getElementById('facCases').textContent = (latest.positive || 0) + ' cases';
-  document.getElementById('facPos').textContent = 'Positivity: ' + ( (latest.positive / (latest.tested||1) * 100).toFixed(1) + '%' );
+  try {
+    const res = await fetch('malaria_facility_demo.json');
+    if (!res.ok) throw new Error('Failed to load data');
+    
+    const data = await res.json();
+    const params = new URLSearchParams(location.search);
+    const facilityId = params.get('id') || data[0].facility_id;
+    
+    const rows = data.filter(r=> r.facility_id === facilityId).sort((a,b)=> a.month.localeCompare(b.month));
+    
+    if (rows.length === 0) {
+      alert('Facility not found');
+      return;
+    }
 
-  // timeseries
-  const labels = rows.map(r=>r.month);
-  const tested = rows.map(r=>r.tested);
-  const positive = rows.map(r=>r.positive);
-  new Chart(document.getElementById('facTimeSeries'), {
-    type:'line',
-    data:{ labels, datasets:[ {label:'Tested', data:tested, borderColor:'#60a5fa', fill:false},{label:'Positive', data:positive, borderColor:'#fb7185', fill:false}] },
-    options:{ responsive:true }
-  });
+    const meta = rows[0];
+    document.getElementById('facName').textContent = meta.facility;
+    document.getElementById('facDistrict').textContent = meta.district;
+    
+    const latest = rows[rows.length-1];
+    document.getElementById('facCases').textContent = (latest.positive || 0) + ' cases';
+    const latestPos = ((latest.positive / (latest.tested||1)) * 100).toFixed(1);
+    document.getElementById('facPos').textContent = 'Positivity: ' + latestPos + '%';
 
-  // map
-  const map = L.map('facilityMap').setView([meta.lat, meta.lon], 12);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-  L.marker([meta.lat, meta.lon]).addTo(map).bindPopup(meta.facility).openPopup();
+    // Calculate aggregates
+    const totalTests = rows.reduce((sum, r) => sum + (r.tested || 0), 0);
+    const totalPositive = rows.reduce((sum, r) => sum + (r.positive || 0), 0);
+    const avgPos = ((totalPositive / totalTests) * 100).toFixed(1);
+    
+    document.getElementById('totalTests').textContent = totalTests.toLocaleString();
+    document.getElementById('avgPositivity').textContent = avgPos + '%';
+
+    // Time series chart
+    const labels = rows.map(r=>r.month);
+    const tested = rows.map(r=>r.tested);
+    const positive = rows.map(r=>r.positive);
+    
+    new Chart(document.getElementById('facTimeSeries'), {
+      type:'line',
+      data:{ 
+        labels, 
+        datasets:[
+          {
+            label:'Tested', 
+            data:tested, 
+            borderColor:'#60a5fa', 
+            backgroundColor:'rgba(96,165,250,0.1)',
+            fill:true,
+            tension:0.3
+          },
+          {
+            label:'Positive', 
+            data:positive, 
+            borderColor:'#fb7185',
+            backgroundColor:'rgba(251,113,133,0.1)', 
+            fill:true,
+            tension:0.3
+          }
+        ] 
+      },
+      options:{ 
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{position:'bottom'},
+          tooltip:{
+            callbacks:{
+              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`
+            }
+          }
+        },
+        scales:{
+          y:{
+            beginAtZero:true,
+            ticks:{ callback: val => val.toLocaleString() }
+          }
+        }
+      }
+    });
+
+    // Map
+    const map = L.map('facilityMap').setView([meta.lat, meta.lon], 12);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+      attribution:'&copy; OpenStreetMap & CARTO'
+    }).addTo(map);
+    L.marker([meta.lat, meta.lon])
+      .addTo(map)
+      .bindPopup(`<strong>${meta.facility}</strong><br>${meta.district}`)
+      .openPopup();
+  } catch (error) {
+    console.error('Error loading facility data:', error);
+    alert('Error loading facility data. Please try again.');
+  }
 }
 init();
 </script>
