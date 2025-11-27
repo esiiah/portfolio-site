@@ -1,0 +1,362 @@
+[
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-01",
+    "tested": 450,
+    "positive": 67
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-02",
+    "tested": 420,
+    "positive": 59
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-03",
+    "tested": 480,
+    "positive": 72
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-04",
+    "tested": 510,
+    "positive": 89
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-05",
+    "tested": 495,
+    "positive": 81
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-06",
+    "tested": 520,
+    "positive": 95
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-07",
+    "tested": 540,
+    "positive": 102
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-08",
+    "tested": 530,
+    "positive": 98
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-09",
+    "tested": 505,
+    "positive": 87
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-10",
+    "tested": 490,
+    "positive": 79
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-11",
+    "tested": 475,
+    "positive": 71
+  },
+  {
+    "facility_id": "FAC001",
+    "facility": "Lusaka Central Health Facility",
+    "district": "Lusaka District",
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "month": "2024-12",
+    "tested": 460,
+    "positive": 68
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-01",
+    "tested": 380,
+    "positive": 91
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-02",
+    "tested": 395,
+    "positive": 85
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-03",
+    "tested": 410,
+    "positive": 98
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-04",
+    "tested": 425,
+    "positive": 110
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-05",
+    "tested": 440,
+    "positive": 118
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-06",
+    "tested": 455,
+    "positive": 125
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-07",
+    "tested": 470,
+    "positive": 132
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-08",
+    "tested": 460,
+    "positive": 128
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-09",
+    "tested": 445,
+    "positive": 115
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-10",
+    "tested": 430,
+    "positive": 108
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-11",
+    "tested": 415,
+    "positive": 95
+  },
+  {
+    "facility_id": "FAC002",
+    "facility": "Ndola Teaching Hospital",
+    "district": "Ndola District",
+    "lat": -12.9667,
+    "lon": 28.6333,
+    "month": "2024-12",
+    "tested": 400,
+    "positive": 88
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-01",
+    "tested": 320,
+    "positive": 54
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-02",
+    "tested": 335,
+    "positive": 48
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-03",
+    "tested": 350,
+    "positive": 61
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-04",
+    "tested": 365,
+    "positive": 73
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-05",
+    "tested": 380,
+    "positive": 80
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-06",
+    "tested": 395,
+    "positive": 87
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-07",
+    "tested": 410,
+    "positive": 94
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-08",
+    "tested": 405,
+    "positive": 90
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-09",
+    "tested": 390,
+    "positive": 82
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-10",
+    "tested": 375,
+    "positive": 71
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-11",
+    "tested": 360,
+    "positive": 63
+  },
+  {
+    "facility_id": "FAC003",
+    "facility": "Kitwe Central Hospital",
+    "district": "Kitwe District",
+    "lat": -12.8167,
+    "lon": 28.2167,
+    "month": "2024-12",
+    "tested": 345,
+    "positive": 55
+  }
+]
