@@ -43,7 +43,7 @@ README.md                  # this file
 1. Put the Dhis2 folder in your repo or local folder.
 2. Run a small static server from inside portfolio-site/Dhis2:
    python -m http.server 8000
-3. Open [http://localhost:8000/index.html](http://localhost:8000/index.html) in your browser.
+3. Open [http://localhost:8000/Dhis2_dashboard.html](http://localhost:8000/Dhis2_dashboard.html) in your browser.
    Note: Browsers may block cross-origin fetches when you open files directly (file://). Running a tiny server avoids that.
 
 ## Alerting rule (demo)
