@@ -1,21 +1,166 @@
-<!-- facility.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Facility Profile – DHIS2 Demo</title>
+  <title>Facility Profile – DHIS2 Demo – Esiah Kapinga</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="DHIS2 facility-level malaria surveillance profile for Zambia health facilities." />
+  <meta name="keywords" content="DHIS2, facility profile, malaria surveillance, Zambia, health data, Esiah Kapinga" />
+  <meta name="author" content="Esiah Kapinga" />
+  <meta name="theme-color" content="#facc15" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/esiah-logo.png" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
   <style> 
-    body{background:#f3f4f6;font-family:Inter,system-ui;margin:0;padding:0;} 
-    .card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)} 
-    #facilityMap{height:280px;border-radius:8px;width:100%;}
-    .small-muted{color:#6b7280;font-size:13px;}
-    .stat-card{background:#f0f9ff;padding:12px;border-radius:6px;border-left:4px solid #0ea5e9;}
-    .chart-container{position:relative;height:280px;width:100%;}
+    body{
+      background:#f3f4f6;
+      font-family:'Inter', system-ui, sans-serif;
+      margin:0;
+      padding:0;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    header .container {
+      max-width: 96rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow-x: auto;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      text-decoration: none;
+      color: black;
+    }
+
+    header .logo img {
+      height: 2rem;
+      width: auto;
+    }
+
+    header .logo h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    header nav {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      margin-left: 1rem;
+      scrollbar-width: none;
+    }
+
+    header nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    header nav a {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+    }
+
+    header .btn-yellow-light {
+      background-color: #fef9c3;
+      color: #ca8a04;
+      border: 1px solid #facc15;
+    }
+    header .btn-yellow-light:hover {
+      background-color: #fef08a;
+    }
+
+    header .btn-yellow-solid {
+      background-color: #eab308;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    header .btn-yellow-solid:hover {
+      background-color: #ca8a04;
+    }
+
+    /* Page Content */
+    .card{
+      background:#fff;
+      border-radius:8px;
+      padding:16px;
+      box-shadow:0 6px 18px rgba(0,0,0,.06)
+    } 
+    #facilityMap{
+      height:280px;
+      border-radius:8px;
+      width:100%;
+    }
+    .small-muted{
+      color:#6b7280;
+      font-size:13px;
+    }
+    .stat-card{
+      background:#f0f9ff;
+      padding:12px;
+      border-radius:6px;
+      border-left:4px solid #0ea5e9;
+    }
+    .chart-container{
+      position:relative;
+      height:280px;
+      width:100%;
+    }
+
+    /* Footer Styles */
+    footer {
+      text-align: center;
+      color: #6B7280;
+      padding: 2rem 1rem;
+      border-top: 1px solid #374151;
+      background: white;
+      margin-top: 2rem;
+    }
+    footer a { 
+      color: #2563EB; 
+      text-decoration: underline; 
+    }
+    footer .social-icons { 
+      display: flex; 
+      justify-content: center; 
+      gap: 1rem; 
+      margin-top: 1rem; 
+    }
+    footer .social-icons img { 
+      width: 1.5rem; 
+      height: 1.5rem; 
+    }
     
     @media (max-width:1024px){
       .card{padding:12px;}
@@ -31,6 +176,22 @@
   </style>
 </head>
 <body>
+  <!-- Header Navigation -->
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="images/esiah-logo.png" alt="Esiah Logo" />
+        <h1>Esiah</h1>
+      </a>
+      <nav>
+        <a href="index.html#home" class="btn-yellow-light">Home</a>
+        <a href="index.html#projects" class="btn-yellow-solid">Projects</a>
+        <a href="Esiah-Kapinga-Resume.pdf" download class="btn-yellow-light">Resume</a>
+        <a href="index.html#contact" class="btn-yellow-light">Contact</a>
+      </nav>
+    </div>
+  </header>
+
   <div class="max-w-5xl mx-auto p-4 md:p-6">
     <a href="Dhis2_dashboard.html" class="text-sm underline text-blue-600 hover:text-blue-800">&larr; Back to dashboard</a>
     <h1 class="text-xl md:text-2xl font-semibold mt-4">Facility Profile (Demo)</h1>
@@ -85,6 +246,18 @@
       </ul>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>DHIS2-style facility profile for malaria surveillance. Demo data for portfolio purposes.</p>
+    <div class="social-icons">
+      <a href="https://www.linkedin.com/in/esiah-kapinga" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn"></a>
+      <a href="https://github.com/esiiah" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"></a>
+      <a href="https://www.instagram.com/esiah_kapinga" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+      <a href="https://www.youtube.com/@esiah.1" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+    </div>
+    <p style="margin-top:0.5rem;">&copy; 2025 Esiah Kapinga - DHIS2 Malaria Dashboard Demo</p>
+  </footer>
 
 <script>
 let facChart = null;
