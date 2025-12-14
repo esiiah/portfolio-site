@@ -5,27 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DHIS2 Zambia Malaria Dashboard – Esiah Kapinga</title>
 
-  <!-- SEO Meta -->
   <meta name="description" content="DHIS2-style dashboard demonstrating malaria surveillance analytics for Zambia with WHO data integration." />
-  <meta name="keywords" content="DHIS2, malaria dashboard, Zambia health data, WHO API, health information systems, Esiah Kapinga" />
   <meta name="author" content="Esiah Kapinga" />
-  <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#facc15" />
   
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="../images/esiah-logo.png" />
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-
-  <!-- Leaflet for maps -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -36,7 +25,6 @@
       padding:0; 
     }
 
-    /* Header Styles */
     header {
       background-color: white;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -116,7 +104,6 @@
       background-color: #ca8a04;
     }
 
-    /* Overview Section */
     .overview-section {
       max-width: 1200px;
       margin: 2rem auto;
@@ -150,7 +137,6 @@
       }
     }
 
-    /* Dashboard Styles */
     .desktop-frame { 
       max-width:1200px; 
       margin:20px auto; 
@@ -225,7 +211,6 @@
       margin-top:8px; 
     }
     
-    /* Button style */    
     .btn-yellow-solid {
       background-color: #eab308;
       color: white;
@@ -243,7 +228,6 @@
       background-color: #ca8a04;
     }
 
-    /* Footer Styles */
     footer {
       text-align: center;
       color: #6B7280;
@@ -267,7 +251,6 @@
       height: 1.5rem; 
     }
 
-    /* Video Section Styles */
     @keyframes borderGlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -308,11 +291,10 @@
   </style>
 </head>
 <body>
-  <!-- Header Navigation -->
   <header>
     <div class="container">
       <a href="../index.html" class="logo">
-        <img src="../images/esiah-logo.png" alt="Esiah Logo" />
+        <img src="../images/esiah-logo.png" alt="Esiah Logo" onerror="this.style.display='none'" />
         <h1>Esiah</h1>
       </a>
       <nav>
@@ -324,7 +306,6 @@
     </div>
   </header>
 
-  <!-- Overview Section -->
   <section class="overview-section">
     <h2>Overview</h2>
     <p>
@@ -332,7 +313,6 @@
     </p>
   </section>
 
-  <!-- Video Demo Section -->
   <section style="max-width: 1200px; margin: 0 auto 3rem; padding: 0 1rem;">
     <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: #1f2937;">See the Process in Action</h2>
     <div style="position: relative; padding: 0.75rem; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e3a8a 100%); border-radius: 1rem; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2);">
@@ -341,16 +321,13 @@
           <video 
             id="dhis2Video"
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
-            muted 
-            loop 
-            playsinline
+            preload="metadata"
             poster="DHIS2_Thumb.png"
           >
             <source src="DHIS2_Video.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         
-          <!-- Play Button Overlay -->
           <div id="playOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); cursor: pointer; transition: opacity 0.3s;">
             <svg width="80" height="80" viewBox="0 0 80 80" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
               <circle cx="40" cy="40" r="35" fill="rgba(255,255,255,0.9)" />
@@ -358,10 +335,7 @@
             </svg>
           </div>
 
-          <!-- Custom Video Controls -->
           <div id="videoControls" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 1rem 1rem 0.75rem; opacity: 0; transition: opacity 0.3s;">
-          
-            <!-- Progress Bar -->
             <div style="margin-bottom: 0.75rem;">
               <div id="progressBar" style="width: 100%; height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; cursor: pointer; position: relative;">
                 <div id="progressFill" style="height: 100%; background: #facc15; border-radius: 3px; width: 0%; transition: width 0.1s linear;"></div>
@@ -369,9 +343,7 @@
               </div>
             </div>
 
-            <!-- Control Buttons -->
             <div style="display: flex; align-items: center; gap: 1rem;">
-              <!-- Play/Pause Button -->
               <button id="playPauseBtn" style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center;">
                 <svg id="playIcon" width="28" height="28" viewBox="0 0 24 24" fill="white">
                   <polygon points="5,3 19,12 5,21" />
@@ -382,13 +354,10 @@
                 </svg>
               </button>
 
-              <!-- Time Display -->
               <span id="timeDisplay" style="color: white; font-size: 0.875rem; font-family: monospace; min-width: 100px;">0:00 / 0:00</span>
 
-              <!-- Spacer -->
               <div style="flex: 1;"></div>
 
-              <!-- Volume Control -->
               <button id="volumeBtn" style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center;">
                 <svg id="volumeOffIcon" width="24" height="24" viewBox="0 0 24 24" fill="white">
                   <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
@@ -398,7 +367,6 @@
                 </svg>
               </button>
 
-              <!-- Fullscreen Button -->
               <button id="fullscreenBtn" style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                   <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
@@ -422,9 +390,7 @@
       </div>
 
       <div class="p-4 md:p-6 grid grid-cols-12 gap-4 md:gap-6">
-        <!-- Left column: KPIs & Charts -->
         <div class="col-span-12 lg:col-span-8 space-y-4">
-          <!-- KPIs row -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
             <div class="kpi">
               <div class="small-muted">Total Confirmed Cases (2022)</div>
@@ -440,7 +406,6 @@
             </div>
           </div>
 
-          <!-- National time series -->
           <div class="kpi">
             <div class="flex items-center justify-between mb-3">
               <div>
@@ -455,7 +420,6 @@
             <div id="chart-error" class="error-message" style="display:none"></div>
           </div>
 
-          <!-- Map -->
           <div class="kpi">
             <div class="flex items-center justify-between mb-3">
               <div>
@@ -468,7 +432,6 @@
           </div>
         </div>
 
-        <!-- Right column: Facility explorer & Data Quality -->
         <div class="col-span-12 lg:col-span-4 space-y-4">
           <div class="kpi">
             <div class="mb-3">
@@ -504,7 +467,6 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
     <p>DHIS2-style malaria surveillance dashboard for Zambia. Demo data for portfolio purposes.</p>
     <div class="social-icons">
@@ -517,7 +479,9 @@
   </footer>
 
 <script>
-/* ========= VIDEO CONTROLS ========== */
+console.log('=== DHIS2 Dashboard Loading ===');
+
+// Video Controls
 (function() {
   const video = document.getElementById('dhis2Video');
   const playOverlay = document.getElementById('playOverlay');
@@ -533,6 +497,17 @@
   const progressFill = document.getElementById('progressFill');
   const timeDisplay = document.getElementById('timeDisplay');
   const videoContainer = document.getElementById('videoContainer');
+
+  console.log('Video element found:', !!video);
+  
+  // Check if video can load
+  video.addEventListener('loadedmetadata', () => {
+    console.log('✓ Video metadata loaded, duration:', video.duration);
+  });
+  
+  video.addEventListener('error', (e) => {
+    console.error('✗ Video error:', video.error);
+  });
 
   function formatTime(seconds) {
     if (!isFinite(seconds)) return '0:00';
@@ -551,10 +526,14 @@
 
   function togglePlayPause() {
     if (video.paused) {
-      video.play();
-      playOverlay.style.display = 'none';
-      playIcon.style.display = 'none';
-      pauseIcon.style.display = 'block';
+      video.play().then(() => {
+        console.log('✓ Video playing');
+        playOverlay.style.display = 'none';
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+      }).catch(err => {
+        console.error('✗ Play failed:', err);
+      });
     } else {
       video.pause();
       playOverlay.style.display = 'flex';
@@ -597,10 +576,6 @@
   progressBar.addEventListener('click', seekVideo);
   video.addEventListener('timeupdate', updateProgress);
 
-  video.play().catch(() => {
-    playOverlay.style.display = 'flex';
-  });
-
   video.addEventListener('ended', () => {
     playOverlay.style.display = 'flex';
     playIcon.style.display = 'block';
@@ -638,119 +613,146 @@
   });
 })();
 
-/* ========= DASHBOARD CONFIG ========== */
+// Dashboard code
 const $ = id => document.getElementById(id);
 const fmt = n => (n==null? '—' : Number(n).toLocaleString());
 
-let nationalTimeseries = [];
-let facilityData = [];
 let nationalChart, facilityChart;
 let map;
+let facilityData = [];
 
-/* ========= RENDER KPIs ========= */
+// STEP 1: Render KPIs - ALWAYS works
 function renderKPIs() {
+  console.log('Rendering KPIs...');
   const confirmedCases = 8428920;
   const incidencePer1000 = 428;
   const estimatedPositivity = 16.5;
   $('kpi-cases').textContent = fmt(confirmedCases);
   $('kpi-incidence').textContent = incidencePer1000.toFixed(1);
   $('kpi-positivity').textContent = estimatedPositivity.toFixed(1) + '%';
+  console.log('✓ KPIs rendered');
 }
 
-/* ========= NATIONAL TIME SERIES ========= */
+// STEP 2: Generate national timeseries
 function generateNationalTimeseries() {
+  console.log('Generating national timeseries...');
   const months = ['2024-01','2024-02','2024-03','2024-04','2024-05','2024-06','2024-07','2024-08','2024-09','2024-10','2024-11','2024-12'];
   const baseCases = 700000;
-  nationalTimeseries = months.map((m, i) => ({
+  const data = months.map((m, i) => ({
     month: m,
     cases: Math.round(baseCases + Math.random() * 50000 - 25000)
   }));
+  console.log('✓ Generated', data.length, 'months of data');
+  return data;
 }
 
-function renderNationalChart() {
-  const ctx = $('nationalChart');
-  if (nationalChart) nationalChart.destroy();
-  
-  nationalChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: nationalTimeseries.map(d => d.month),
-      datasets: [{
-        label: 'Confirmed Cases',
-        data: nationalTimeseries.map(d => d.cases),
-        borderColor: '#0ea5e9',
-        backgroundColor: 'rgba(14,165,233,0.1)',
-        fill: true,
-        tension: 0.4,
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'bottom' },
-        tooltip: {
-          callbacks: {
-            label: ctx => `Cases: ${ctx.parsed.y.toLocaleString()}`
+// STEP 3: Render national chart
+function renderNationalChart(data) {
+  console.log('Rendering national chart...');
+  try {
+    const ctx = $('nationalChart');
+    if (nationalChart) nationalChart.destroy();
+    
+    nationalChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.map(d => d.month),
+        datasets: [{
+          label: 'Confirmed Cases',
+          data: data.map(d => d.cases),
+          borderColor: '#0ea5e9',
+          backgroundColor: 'rgba(14,165,233,0.1)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: {
+            callbacks: {
+              label: ctx => `Cases: ${ctx.parsed.y.toLocaleString()}`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: val => val.toLocaleString() }
           }
         }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { callback: val => val.toLocaleString() }
-        }
       }
-    }
-  });
+    });
+    console.log('✓ National chart rendered');
+  } catch(err) {
+    console.error('✗ Chart error:', err);
+  }
 }
 
-/* ========= MAP INITIALIZATION ========= */
+// STEP 4: Initialize map
 function initMap() {
-  map = L.map('map').setView([-13.1339, 27.8493], 6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap & CARTO'
-  }).addTo(map);
-  
-  setTimeout(() => map.invalidateSize(), 100);
+  console.log('Initializing map...');
+  try {
+    map = L.map('map').setView([-13.1339, 27.8493], 6);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap & CARTO'
+    }).addTo(map);
+    
+    setTimeout(() => {
+      map.invalidateSize();
+      console.log('✓ Map initialized');
+    }, 100);
+  } catch(err) {
+    console.error('✗ Map error:', err);
+  }
 }
 
-/* ========= FACILITY DATA ========= */
+// STEP 5: Load facility data
 async function loadFacilityData() {
+  console.log('Loading facility data...');
   try {
     const response = await fetch('malaria_facility_demo.json');
-    if (!response.ok) throw new Error('Failed to load facility data');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    
     facilityData = await response.json();
+    console.log('✓ Loaded', facilityData.length, 'facility records');
     
-    const facilities = [...new Set(facilityData.map(r => r.facility_id))];
-    const select = $('facilitySelect');
-    select.innerHTML = '<option value="">-- Select a facility --</option>';
-    
-    facilities.forEach(fid => {
-      const row = facilityData.find(r => r.facility_id === fid);
-      const opt = document.createElement('option');
-      opt.value = fid;
-      opt.textContent = row.facility;
-      select.appendChild(opt);
-    });
-    
-    select.addEventListener('change', () => {
-      if (select.value) {
-        renderFacilityChart(select.value);
-        showFacilityOnMap(select.value);
-      }
-    });
-    
+    populateFacilityDropdown();
     addFacilitiesToMap();
   } catch (error) {
-    console.error('Error loading facility data:', error);
-    $('chart-error').textContent = 'Failed to load facility data';
+    console.error('✗ Facility data error:', error);
+    $('chart-error').textContent = 'Could not load facility data: ' + error.message;
     $('chart-error').style.display = 'block';
   }
 }
 
+function populateFacilityDropdown() {
+  const facilities = [...new Set(facilityData.map(r => r.facility_id))];
+  const select = $('facilitySelect');
+  select.innerHTML = '<option value="">-- Select a facility --</option>';
+  
+  facilities.forEach(fid => {
+    const row = facilityData.find(r => r.facility_id === fid);
+    const opt = document.createElement('option');
+    opt.value = fid;
+    opt.textContent = row.facility;
+    select.appendChild(opt);
+  });
+  
+  select.addEventListener('change', () => {
+    if (select.value) {
+      renderFacilityChart(select.value);
+      showFacilityOnMap(select.value);
+    }
+  });
+  console.log('✓ Facility dropdown populated with', facilities.length, 'facilities');
+}
+
 function addFacilitiesToMap() {
+  if (!map) return;
   const uniqueFacilities = {};
   facilityData.forEach(r => {
     if (!uniqueFacilities[r.facility_id]) {
@@ -760,16 +762,18 @@ function addFacilitiesToMap() {
         .bindPopup(`<strong>${r.facility}</strong><br>${r.district}`);
     }
   });
+  console.log('✓ Added', Object.keys(uniqueFacilities).length, 'markers to map');
 }
 
 function showFacilityOnMap(facilityId) {
   const row = facilityData.find(r => r.facility_id === facilityId);
-  if (row) {
+  if (row && map) {
     map.setView([row.lat, row.lon], 10);
   }
 }
 
 function renderFacilityChart(facilityId) {
+  console.log('Rendering facility chart for', facilityId);
   const rows = facilityData.filter(r => r.facility_id === facilityId).sort((a,b) => a.month.localeCompare(b.month));
   
   const ctx = $('facilityChart');
@@ -819,10 +823,12 @@ function renderFacilityChart(facilityId) {
       }
     }
   });
+  console.log('✓ Facility chart rendered');
 }
 
-/* ========= DATA QUALITY ========= */
+// STEP 6: Data quality
 function renderDataQuality() {
+  console.log('Rendering data quality...');
   const dqList = $('dqList');
   const facilities = ['Lusaka Central', 'Ndola Teaching', 'Kitwe Central'];
   dqList.innerHTML = facilities.map(f => 
@@ -831,26 +837,44 @@ function renderDataQuality() {
       <span class="font-semibold text-green-600">${Math.floor(Math.random() * 10) + 90}%</span>
     </div>`
   ).join('');
+  console.log('✓ Data quality rendered');
 }
 
-/* ========= KEY FINDINGS ========= */
+// STEP 7: Findings
 function renderFindings() {
+  console.log('Rendering findings...');
   $('finding-1').textContent = 'Test positivity stable at 16.5% (within normal range for Zambia)';
+  console.log('✓ Findings rendered');
 }
 
-/* ========= INITIALIZE EVERYTHING ========= */
+// MAIN INITIALIZATION
 async function init() {
+  console.log('=== Starting dashboard initialization ===');
+  
   try {
+    // These ALWAYS work
     renderKPIs();
-    generateNationalTimeseries();
-    renderNationalChart();
+    const timeseriesData = generateNationalTimeseries();
+    renderNationalChart(timeseriesData);
     initMap();
-    await loadFacilityData();
     renderDataQuality();
     renderFindings();
+    
+    // This might fail if JSON missing
+    await loadFacilityData();
+    
+    console.log('=== Dashboard initialization complete ===');
   } catch (error) {
-    console.error('Initialization error:', error);
+    console.error('=== Dashboard initialization failed ===', error);
   }
 }
 
-window.addEventListener('load', init);
+// Start when page loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
