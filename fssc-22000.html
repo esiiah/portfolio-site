@@ -120,13 +120,16 @@
     }
     .btn-red-solid:hover { background: #ca8a04; }
 
-    /* ── HERO BANNERS ── */
-    .desktop-banner { display: none; }
-    .mobile-banner  { display: block; }
+    /* ── HERO BANNER ── */
+    .hero-banner {
+      width: 100%;
+      padding: 1.5rem 1rem;
+    }
 
     @media (min-width: 768px) {
-      .desktop-banner { display: block; }
-      .mobile-banner  { display: none; }
+      .hero-banner {
+        padding: 1.5rem 2rem;
+      }
     }
 
     /* ── MAIN ── */
@@ -400,51 +403,17 @@
   </div>
 </header>
 
-<!-- ── DESKTOP BANNER ── -->
-<section class="desktop-banner" style="width:100%; background:#fff; padding:0.5rem 2rem;">
-  <div style="position:relative; border-radius:3rem; overflow:hidden; max-width:1200px; margin:0 auto;">
+<!-- ── HERO BANNER ── -->
+<section class="hero-banner">
+  <div class="relative w-full max-w-screen-lg mx-auto overflow-hidden rounded-[3rem] border border-yellow-400 shadow-lg shadow-blue-500/30" style="border-radius:3rem; overflow:hidden; border:1px solid #facc15; box-shadow:0 10px 30px rgba(59,130,246,0.2); max-width:1200px; margin:0 auto; position:relative;">
     <img src="images/fssc/fssc-banner.png" alt="FSSC 22000 Training Banner"
-         style="width:100%; height:480px; object-fit:cover; display:block;" />
-    <div style="position:absolute; top:0; left:0; width:100%; height:100%;
-                background:linear-gradient(to right, rgba(26,26,26,0.88) 0%, rgba(0,0,0,0.2) 100%);
-                display:flex; align-items:center; padding:3rem;">
-      <div style="max-width:580px; color:white;">
-        <div style="font-size:0.8rem; font-weight:700; letter-spacing:0.12em; color:#facc15; text-transform:uppercase; margin-bottom:0.5rem;">
-          Food Safety Certification
-        </div>
-        <h1 style="font-family:'Poppins',sans-serif; font-size:2.6rem; font-weight:700; line-height:1.15; margin-bottom:0.75rem; text-shadow:0 2px 6px rgba(0,0,0,0.3);">
-          FSSC 22000<br/>Version 6
-        </h1>
-        <h2 style="font-family:'Poppins',sans-serif; font-size:1.2rem; font-weight:600; color:#FBBF24; margin-bottom:0.75rem;">
-          Training Summary — Bigtree Beverages MFEZ
-        </h2>
-        <p style="font-size:0.95rem; color:rgba(255,255,255,0.85); line-height:1.6;">
-          A comprehensive FSSC 22000 Version 6 training conducted by Intertek, covering food safety management, HACCP, TACCP, VACCP, and all Version 6 additional requirements.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── MOBILE BANNER ── -->
-<section class="mobile-banner" style="width:100%; background:#fff; padding:1.5rem 1rem;">
-  <div style="position:relative; border-radius:1.5rem; overflow:hidden;">
-    <img src="images/fssc/fssc-banner-mobile.png" alt="FSSC 22000 Training Banner"
-         style="width:100%; height:auto; object-fit:cover; border-radius:1.5rem; display:block;" />
-    <div style="position:absolute; top:0; left:0; width:100%; height:100%;
-                background:linear-gradient(to bottom, rgba(26,26,26,0.88), rgba(0,0,0,0.3));
-                padding:1.25rem; border-radius:1.5rem;">
-      <div style="font-size:0.7rem; font-weight:700; color:#facc15; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.25rem;">
-        Food Safety Certification
-      </div>
-      <h1 style="font-family:'Poppins',sans-serif; font-size:1.4rem; font-weight:700; color:white; margin-bottom:0.25rem;">
+         style="width:100%; height:auto; object-fit:cover; display:block;" />
+    <div style="position:absolute; inset:0; padding:1.5rem 2rem; display:flex; flex-direction:column; justify-content:flex-end; background:rgba(0,0,0,0.5);">
+      <h1 style="font-family:'Poppins',sans-serif; font-size:clamp(1.4rem, 4vw, 2.6rem); font-weight:700; color:white; margin-bottom:0.35rem; text-shadow:0 2px 6px rgba(0,0,0,0.4);">
         FSSC 22000 — Version 6
       </h1>
-      <h2 style="font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:600; color:#FBBF24; margin-bottom:0.5rem;">
-        Training Summary — Bigtree Beverages
-      </h2>
-      <p style="font-size:0.8rem; color:rgba(255,255,255,0.85);">
-        Intertek-facilitated food safety management training, 09 March 2026, Lusaka.
+      <p style="font-family:'Poppins',sans-serif; font-size:clamp(0.85rem, 2vw, 1.15rem); font-weight:600; color:#facc15;">
+        Training Summary — Bigtree Beverages MFEZ, Lusaka
       </p>
     </div>
   </div>
@@ -710,7 +679,7 @@
 
   <!-- AUTHORED BY -->
   <div class="author-block">
-    <img src="images/esiah-avatar.png" alt="Esiah Kapinga" />
+    <img src="images/fssc/esiah-avatar.png" alt="Esiah Kapinga" />
     <div>
       <div class="author-name">Esiah Kapinga</div>
       <div class="author-role">Quality Assurance Officer — Bigtree Beverages Limited, Lusaka, Zambia</div>
