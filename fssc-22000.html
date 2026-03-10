@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSSC 22000 v6 — Food Safety Training | Esiah Kapinga</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="FSSC 22000 Version 6 Food Safety System Certification training summary by Esiah Kapinga, QA Officer at Bigtree Beverages Limited. Conducted by Intertek, March 2026." />
+  <meta name="keywords" content="FSSC 22000, food safety, ISO 22000, HACCP, TACCP, VACCP, Bigtree Beverages, Intertek, Esiah Kapinga, QA officer, food safety certification" />
+  <meta name="author" content="Esiah Kapinga" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#eab308" />
+  <link rel="canonical" href="https://esiiah.github.io/portfolio-site/fssc-22000.html" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/esiah-logo.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FSSC 22000 Version 6 — Esiah Kapinga" />
+  <meta property="og:description" content="Food Safety System Certification training summary. Bigtree Beverages, Intertek, March 2026." />
+  <meta property="og:image" content="images/fssc/fssc-banner.png" />
+  <meta property="og:url" content="https://esiiah.github.io/portfolio-site/fssc-22000.html" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FSSC 22000 Version 6 — Esiah Kapinga" />
+  <meta name="twitter:description" content="Food Safety System Certification training summary by QA Officer Esiah Kapinga." />
+  <meta name="twitter:image" content="images/fssc/fssc-banner.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --red:       #eab308;
+      --red-dark:  #ca8a04;
+      --red-light: #fef9c3;
+      --red-mid:   #facc15;
+      --gold:      #eab308;
+      --gold-dark: #ca8a04;
+      --gold-bg:   #fefce8;
+      --dark:      #1A1A1A;
+      --grey:      #6B7280;
+      --bg:        #FFFFFF;
+      --border:    #fde68a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow-x: auto;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      text-decoration: none;
+      color: black;
+    }
+
+    header .logo img { height: 2rem; width: auto; }
+    header .logo h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: 0.05em; }
+
+    header nav {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      margin-left: 1rem;
+      scrollbar-width: none;
+    }
+    header nav::-webkit-scrollbar { display: none; }
+
+    header nav a {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      transition: background-color 0.2s;
+    }
+
+    .btn-red-light {
+      background: #fef9c3;
+      color: #ca8a04;
+      border: 1px solid #facc15;
+    }
+    .btn-red-light:hover { background: #fef08a; }
+
+    .btn-red-solid {
+      background: #eab308;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .btn-red-solid:hover { background: #ca8a04; }
+
+    /* ── HERO BANNERS ── */
+    .desktop-banner { display: none; }
+    .mobile-banner  { display: block; }
+
+    @media (min-width: 768px) {
+      .desktop-banner { display: block; }
+      .mobile-banner  { display: none; }
+    }
+
+    /* ── MAIN ── */
+    main {
+      padding: 2.5rem 4rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    @media (max-width: 767px) { main { padding: 1.25rem 1rem; } }
+
+    section { margin-bottom: 2.5rem; }
+
+    section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--red);
+      border-left: 4px solid var(--red);
+      padding-left: 0.75rem;
+    }
+
+    section h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ca8a04;
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    section p, section ul, section ol {
+      font-size: 1.05rem;
+      color: var(--dark);
+      line-height: 1.75;
+    }
+
+    section ul, section ol { padding-left: 1.5rem; }
+    section ul li, section ol li { margin-bottom: 0.5rem; }
+
+    /* ── BADGES ── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+    .badge {
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-red  { background: #fef9c3; color: #ca8a04; border: 1px solid #fde68a; }
+    .badge-gold { background: #1A1A1A; color: #facc15; border: 1px solid #333; }
+
+    /* ── TWO-COL GRID ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.25rem 0;
+    }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+    .card {
+      padding: 1.25rem 1.5rem;
+      border-radius: 1rem;
+      border: 2px solid;
+    }
+    .card-red  { background: #fefce8; border-color: #fde68a; }
+    .card-gold { background: #1A1A1A; border-color: #333; }
+    .card h3   { margin-top: 0; }
+
+    /* ── TABLES ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 0.75rem 0;
+    }
+    th, td {
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--border);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    thead { background: #1A1A1A; }
+    thead th { color: #facc15; font-weight: 700; border-color: #333; }
+    tbody tr:nth-child(odd)  { background: #fefce8; }
+    tbody tr:nth-child(even) { background: white; }
+
+    /* ── NUMBERED SECTIONS ── */
+    .numbered-section {
+      counter-reset: section-counter;
+    }
+    .numbered-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: #fefce8;
+      border-radius: 0.75rem;
+      border: 1px solid #fde68a;
+    }
+    .numbered-item .num {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      background: #1A1A1A;
+      color: #facc15;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.1rem;
+    }
+
+    /* ── PRINCIPLE CARDS ── */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .principle-card {
+      background: white;
+      border: 1px solid #fde68a;
+      border-radius: 0.75rem;
+      padding: 1rem 1.2rem;
+      border-top: 3px solid #eab308;
+    }
+    .principle-card .p-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ca8a04;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .principle-card .p-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.4rem;
+    }
+    .principle-card p { font-size: 0.9rem; color: var(--grey); }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      background: #1A1A1A;
+      border-radius: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .cta-section h2 {
+      color: #facc15;
+      border-left: none;
+      padding-left: 0;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .cta-section p { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; }
+
+    .cta-button {
+      display: inline-block;
+      background: #eab308;
+      color: white;
+      padding: 0.85rem 2.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+      margin: 0 0.5rem;
+    }
+    .cta-button:hover { background: #ca8a04; transform: translateY(-2px); }
+
+    .cta-button-outline {
+      display: inline-block;
+      background: transparent;
+      color: white;
+      padding: 0.85rem 2.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 2px solid rgba(255,255,255,0.5);
+      transition: background 0.2s;
+      margin: 0 0.5rem;
+    }
+    .cta-button-outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── DONE BY ESIAH ── */
+    .author-block {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: #fefce8;
+      border: 1px solid #fde68a;
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      margin-top: 2rem;
+    }
+    .author-block img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #eab308;
+      flex-shrink: 0;
+    }
+    .author-block .author-name { font-weight: 700; font-size: 1rem; color: var(--dark); }
+    .author-block .author-role { font-size: 0.875rem; color: var(--grey); }
+
+    /* ── INTERTEK CALLOUT ── */
+    .intertek-box {
+      background: #1A1A1A;
+      border-left: 5px solid var(--gold);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .intertek-box .it-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .intertek-box p { color: #D1D5DB; font-size: 0.95rem; line-height: 1.65; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: #9CA3AF;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    footer a { color: #E5E7EB; text-decoration: underline; }
+    footer .social-icons { display: flex; justify-content: center; gap: 1rem; margin: 1rem 0; }
+    footer .social-icons img { width: 1.5rem; height: 1.5rem; }
+    footer .red-line {
+      width: 60px;
+      height: 3px;
+      background: #eab308;
+      margin: 0.75rem auto;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="container">
+    <a href="index.html" class="logo">
+      <img src="images/esiah-logo.png" alt="Esiah Logo" />
+      <h1>Esiah</h1>
+    </a>
+    <nav>
+      <a href="index.html#home"     class="btn-red-light">Home</a>
+      <a href="index.html#projects" class="btn-red-solid">Projects</a>
+      <a href="Esiah-Kapinga-Resume.pdf" download class="btn-red-light">Resume</a>
+      <a href="index.html#contact"  class="btn-red-light">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── DESKTOP BANNER ── -->
+<section class="desktop-banner" style="width:100%; background:#fff; padding:0.5rem 2rem;">
+  <div style="position:relative; border-radius:3rem; overflow:hidden; max-width:1200px; margin:0 auto;">
+    <img src="images/fssc/fssc-banner.png" alt="FSSC 22000 Training Banner"
+         style="width:100%; height:480px; object-fit:cover; display:block;" />
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%;
+                background:linear-gradient(to right, rgba(26,26,26,0.88) 0%, rgba(0,0,0,0.2) 100%);
+                display:flex; align-items:center; padding:3rem;">
+      <div style="max-width:580px; color:white;">
+        <div style="font-size:0.8rem; font-weight:700; letter-spacing:0.12em; color:#facc15; text-transform:uppercase; margin-bottom:0.5rem;">
+          Food Safety Certification
+        </div>
+        <h1 style="font-family:'Poppins',sans-serif; font-size:2.6rem; font-weight:700; line-height:1.15; margin-bottom:0.75rem; text-shadow:0 2px 6px rgba(0,0,0,0.3);">
+          FSSC 22000<br/>Version 6
+        </h1>
+        <h2 style="font-family:'Poppins',sans-serif; font-size:1.2rem; font-weight:600; color:#FBBF24; margin-bottom:0.75rem;">
+          Training Summary — Bigtree Beverages MFEZ
+        </h2>
+        <p style="font-size:0.95rem; color:rgba(255,255,255,0.85); line-height:1.6;">
+          A comprehensive FSSC 22000 Version 6 training conducted by Intertek, covering food safety management, HACCP, TACCP, VACCP, and all Version 6 additional requirements.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MOBILE BANNER ── -->
+<section class="mobile-banner" style="width:100%; background:#fff; padding:1.5rem 1rem;">
+  <div style="position:relative; border-radius:1.5rem; overflow:hidden;">
+    <img src="images/fssc/fssc-banner-mobile.png" alt="FSSC 22000 Training Banner"
+         style="width:100%; height:auto; object-fit:cover; border-radius:1.5rem; display:block;" />
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%;
+                background:linear-gradient(to bottom, rgba(26,26,26,0.88), rgba(0,0,0,0.3));
+                padding:1.25rem; border-radius:1.5rem;">
+      <div style="font-size:0.7rem; font-weight:700; color:#facc15; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.25rem;">
+        Food Safety Certification
+      </div>
+      <h1 style="font-family:'Poppins',sans-serif; font-size:1.4rem; font-weight:700; color:white; margin-bottom:0.25rem;">
+        FSSC 22000 — Version 6
+      </h1>
+      <h2 style="font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:600; color:#FBBF24; margin-bottom:0.5rem;">
+        Training Summary — Bigtree Beverages
+      </h2>
+      <p style="font-size:0.8rem; color:rgba(255,255,255,0.85);">
+        Intertek-facilitated food safety management training, 09 March 2026, Lusaka.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN CONTENT ── -->
+<main>
+
+  <!-- OVERVIEW -->
+  <section>
+    <h2>Overview</h2>
+    <p>
+      On 09 March 2026, an all-day FSSC 22000 Version 6 training was held at Bigtree Beverages MFEZ, Lusaka, facilitated by <strong>Intertek</strong> — a globally accredited Total Quality Assurance body. The training was organised by the QA Department and targeted new employees and selected staff who had not attended a previous session. This document is the official summary authored by the Quality Assurance Officer following the training.
+    </p>
+    <div class="badge-row" style="margin-top:1rem;">
+      <span class="badge badge-red">FSSC 22000 v6</span>
+      <span class="badge badge-red">ISO 22000:2018</span>
+      <span class="badge badge-red">HACCP</span>
+      <span class="badge badge-red">TACCP</span>
+      <span class="badge badge-red">VACCP</span>
+      <span class="badge badge-gold">Intertek Certified</span>
+      <span class="badge badge-gold">Bigtree Beverages</span>
+      <span class="badge badge-gold">Lusaka, Zambia</span>
+    </div>
+  </section>
+
+  <!-- WHAT IS FSSC 22000 -->
+  <section>
+    <h2>What is FSSC 22000?</h2>
+    <p>
+      <strong>FSSC 22000</strong> stands for <em>Food Safety System Certification 22000</em>. It is a globally recognised, scheme-based certification standard providing a comprehensive framework for managing food safety risks across the food supply chain. The number series "22000" is assigned to food safety by the <strong>ISO (International Organisation for Standardisation)</strong>.
+    </p>
+
+    <h3>Key ISO Standards</h3>
+    <table>
+      <thead>
+        <tr><th>Standard</th><th>Scope</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ISO 9001</td><td>Quality Management Systems</td></tr>
+        <tr><td>ISO 14001</td><td>Environmental Management Systems</td></tr>
+        <tr><td>ISO 22000</td><td>Food Safety Management Systems (first published 2005)</td></tr>
+        <tr><td>OHSAS 18001</td><td>Occupational Health and Safety Management Systems</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- HISTORY -->
+  <section>
+    <h2>History</h2>
+    <p>
+      The formal development of food safety management principles can be traced back to the <strong>1960s</strong>, when <strong>NASA (National Aeronautics and Space Administration)</strong> faced the critical challenge of producing, processing, and storing food for astronauts on space programmes. The food had to be safe, free from pathogens, and have an extended shelf life under conditions that made conventional quality inspection impractical. This initiative gave rise to what eventually evolved into the HACCP system — the scientific cornerstone of modern food safety management.
+    </p>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section>
+    <h2>Components of FSSC 22000 — Version 6</h2>
+    <p>FSSC 22000 Version 6 is built on three interlocking components:</p>
+
+    <div class="numbered-section" style="margin-top:1.25rem;">
+
+      <div class="numbered-item">
+        <div class="num">1</div>
+        <div>
+          <strong>ISO 22000:2018</strong> — The core food safety management system standard. Updated in 2018, it forms the foundation of the entire scheme.
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="num">2</div>
+        <div>
+          <strong>ISO/TS 22002-X Series</strong> — Technical specifications defining sector-specific Prerequisite Programmes (PRPs):
+          <ul style="margin-top:0.5rem;">
+            <li>ISO/TS 22002-1 — PRPs for food manufacturing</li>
+            <li>ISO/TS 22002-3 — PRPs for farming (including egg production)</li>
+            <li>NEN/NTA 8059 — PRPs for food brokers and agents</li>
+            <li>BSI/PAS 221 — PRPs for retail (British Standards Institution)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="num">3</div>
+        <div>
+          <strong>Additional Requirements</strong> — Mandatory scheme-specific requirements developed by the FSSC 22000 Foundation that go beyond ISO 22000 and the ISO/TS 22002 series.
+        </div>
+      </div>
+    </div>
+
+    <h3>Version 5.1 — QMS Module</h3>
+    <p>
+      Version 5.1 introduced an optional <strong>QMS (Quality Management System)</strong> module integrating ISO 9001 (quality management) with ISO 22000 (food safety management) into a unified, auditable system framework.
+    </p>
+  </section>
+
+  <!-- FOOD CHAIN -->
+  <section>
+    <h2>The Food Chain</h2>
+    <p>
+      In the food production industry, the <strong>food chain</strong> refers to the complete sequence of interconnected stages and operations involved in the production, processing, distribution, storage, and consumption of food — from primary farming and raw materials all the way through to the end consumer. Effective food safety management must be applied across the entire chain.
+    </p>
+
+    <h3>Food Chain Categories</h3>
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A-I / A-II</td><td>Farming of animals — livestock and aquaculture</td></tr>
+        <tr><td>C-I to C-IV</td><td>Food manufacturing — various subcategories of processing</td></tr>
+        <tr><td>D-I / D-IIa / D-IIb</td><td>Production of animal feed and pet food</td></tr>
+        <tr><td>E</td><td>Catering and food service</td></tr>
+        <tr><td>F</td><td>Retail and wholesale trade</td></tr>
+        <tr><td>G</td><td>Transport and storage</td></tr>
+        <tr><td>I</td><td>Food packaging and packaging materials production</td></tr>
+        <tr><td>K</td><td>Production of (bio)chemicals used in food production</td></tr>
+      </tbody>
+    </table>
+
+    <h3>PDCA Cycle — Execution Framework</h3>
+    <p><strong>PDCA (Plan–Do–Check–Act)</strong> is the operational methodology for implementing and improving the FSSC 22000 system:</p>
+    <div class="two-col" style="margin-top:0.75rem;">
+      <div class="card card-red"><h3 style="color:var(--red);">Plan</h3><p>Identify objectives, hazards, risks, and define control measures.</p></div>
+      <div class="card card-red"><h3 style="color:var(--red);">Do</h3><p>Implement the planned processes, PRPs, and HACCP controls.</p></div>
+      <div class="card card-red"><h3 style="color:var(--red);">Check</h3><p>Monitor, measure, and verify that controls are effective.</p></div>
+      <div class="card card-red"><h3 style="color:var(--red);">Act</h3><p>Take corrective action and drive continual improvement.</p></div>
+    </div>
+  </section>
+
+  <!-- ADDITIONAL REQUIREMENTS -->
+  <section>
+    <h2>Additional Requirements — FSSC 22000 V6</h2>
+    <p>The following are mandatory for FSSC 22000 certification, on top of ISO 22000 and the relevant ISO/TS 22002 series:</p>
+
+    <div class="numbered-section" style="margin-top:1.25rem;">
+      <div class="numbered-item"><div class="num">1</div><div><strong>Management of Services and Purchased Materials</strong> — Documented processes to evaluate, select, monitor, and re-evaluate all external providers and suppliers.</div></div>
+      <div class="numbered-item"><div class="num">2</div><div><strong>Product Labelling and Printed Materials</strong> — Labels must comply with legal and regulatory requirements and accurately communicate allergen, nutritional, and usage information.</div></div>
+      <div class="numbered-item"><div class="num">3</div><div><strong>Food Defence</strong> — Addresses intentional adulteration by malicious actors. Requires a TACCP assessment and a documented Food Defence Plan.</div></div>
+      <div class="numbered-item"><div class="num">4</div><div><strong>Food Fraud Mitigation</strong> — Addresses deliberate economic adulteration. Requires a VACCP assessment and a documented Food Fraud Mitigation Plan.</div></div>
+      <div class="numbered-item"><div class="num">5</div><div><strong>Environmental Monitoring Programme (EMP)</strong> — Detection of pathogens (Listeria monocytogenes, Salmonella spp.) in the processing environment, with defined sampling, testing, corrective actions, and trend analysis.</div></div>
+      <div class="numbered-item"><div class="num">6</div><div><strong>Allergen Management</strong> — Identification of allergenic materials, risk assessment for cross-contact, segregation controls, cleaning validation, and accurate allergen labelling.</div></div>
+      <div class="numbered-item"><div class="num">7</div><div><strong>Food Safety Culture</strong> — Documented objectives and active commitment to embedding food safety values at all levels of the organisation.</div></div>
+      <div class="numbered-item"><div class="num">8</div><div><strong>Quality Management (QMS Module)</strong> — Where adopted, integration of ISO 9001 quality principles alongside food safety requirements.</div></div>
+    </div>
+  </section>
+
+  <!-- HACCP -->
+  <section>
+    <h2>HACCP — Hazard Analysis and Critical Control Points</h2>
+    <p>
+      HACCP is a systematic, science-based approach to identifying, evaluating, and controlling food safety hazards in the food production process. It is a <strong>preventive system</strong> specifically addressing <strong>unintentional</strong> (naturally occurring or accidental) hazards within the processing environment.
+    </p>
+
+    <h3>The 7 Principles of HACCP</h3>
+    <div class="principles-grid">
+      <div class="principle-card"><div class="p-num">Principle 1</div><div class="p-title">Hazard Analysis</div><p>Identify and evaluate all biological, chemical, physical, and allergenic hazards at each process step.</p></div>
+      <div class="principle-card"><div class="p-num">Principle 2</div><div class="p-title">Determine CCPs</div><p>Identify steps where control is essential to prevent, eliminate, or reduce a hazard to an acceptable level.</p></div>
+      <div class="principle-card"><div class="p-num">Principle 3</div><div class="p-title">Critical Limits</div><p>Define the maximum and/or minimum values that must be controlled at each CCP.</p></div>
+      <div class="principle-card"><div class="p-num">Principle 4</div><div class="p-title">Monitoring</div><p>Define how each CCP will be monitored: method, frequency, and responsible person.</p></div>
+      <div class="principle-card"><div class="p-num">Principle 5</div><div class="p-title">Corrective Actions</div><p>Define actions to be taken when monitoring indicates a CCP is not under control.</p></div>
+      <div class="principle-card"><div class="p-num">Principle 6</div><div class="p-title">Verification</div><p>Confirm the HACCP system is working effectively through audits, testing, and review of CCP records.</p></div>
+      <div class="principle-card"><div class="p-num">Principle 7</div><div class="p-title">Documentation</div><p>Maintain all HACCP records and conduct regular reviews and updates of the system.</p></div>
+    </div>
+
+    <h3>Types of Hazards</h3>
+    <table>
+      <thead><tr><th>Type</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Physical</strong></td><td>Glass fragments, metal shards, plastic pieces, stones, wood splinters</td></tr>
+        <tr><td><strong>Chemical</strong></td><td>Lubricants, cleaning/sanitising chemicals, pesticide residues, chemical spills</td></tr>
+        <tr><td><strong>Biological</strong></td><td>Pathogenic bacteria (Salmonella, Listeria, E. coli), moulds, yeasts, viruses</td></tr>
+        <tr><td><strong>Allergenic</strong></td><td>Milk, eggs, fish, peanuts, tree nuts, wheat, soy — any ingredient causing adverse immunological reactions</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- TACCP & VACCP -->
+  <section>
+    <h2>TACCP — Threat Assessment and Critical Control Points</h2>
+    <p>
+      TACCP is a systematic methodology used to identify, assess, and manage threats arising from <strong>intentional acts</strong> targeting the food supply chain. Unlike HACCP, TACCP focuses on <strong>deliberate attacks</strong> motivated by malicious intent — product tampering, sabotage, extortion, or terrorism.
+    </p>
+
+    <div class="card card-red" style="margin-top:1rem;">
+      <h3 style="color:#ca8a04; margin-top:0;">Industry Example</h3>
+      <p>A beverage manufacturer identifies that its open-top blending tanks — accessible to all production-area staff — represent a high-threat point for intentional contamination. The TACCP assessment results in locked tank covers, restricted access controls, and CCTV monitoring of the blending area as targeted control measures.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>VACCP — Vulnerability Assessment and Critical Control Points</h2>
+    <p>
+      VACCP is a systematic process used to identify and manage vulnerabilities in the food supply chain exploitable for <strong>food fraud</strong> — the deliberate adulteration, substitution, dilution, mislabelling, or misrepresentation of food for economic gain.
+    </p>
+
+    <h3>Key Components</h3>
+    <ul>
+      <li><strong>Supply Chain Mapping</strong> — Identification of all ingredients and their supply chains.</li>
+      <li><strong>Vulnerability Scoring</strong> — Each material scored on economic motivation for fraud, accessibility, historical incidents, and detectability.</li>
+      <li><strong>Prioritisation</strong> — High-risk materials escalated for enhanced controls: supplier audits, certificates of analysis, independent testing.</li>
+      <li><strong>Food Fraud Mitigation Plan</strong> — Documented controls with defined ownership and review frequency.</li>
+    </ul>
+
+    <div class="card card-gold" style="margin-top:1rem;">
+      <h3 style="color:#facc15; margin-top:0;">Industry Example</h3>
+      <p>A juice manufacturer sources concentrated fruit juice from multiple international suppliers. The VACCP assessment identifies this as high-risk for economic adulteration (e.g., dilution with cheaper juice or addition of undisclosed sugars). Controls implemented: mandatory third-party isotopic testing per batch and annual unannounced supplier audits.</p>
+    </div>
+  </section>
+
+  <!-- REFLECTION QUESTION -->
+  <section>
+    <h2>A Question to Reflect On</h2>
+
+    <!-- Question author block -->
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:1.5rem; margin-bottom:1.25rem; flex-wrap:wrap;">
+      <div style="flex:1; min-width:200px;">
+        <h3 style="color:var(--dark); font-size:1.1rem; margin-bottom:0.1rem;">Esiah Kapinga</h3>
+        <p style="color:var(--grey); font-size:0.875rem; font-style:italic;">QA Officer — Bigtree Beverages Limited</p>
+      </div>
+      <img src="images/esiah-avatar.png" alt="Esiah Kapinga"
+           style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:3px solid var(--red); flex-shrink:0;" />
+    </div>
+
+    <!-- The question card -->
+    <div style="background:#fefce8; border:1px solid #fde68a; border-left:5px solid #eab308;
+                border-radius:0.75rem; padding:1.5rem 1.75rem;">
+      <div style="font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+                  color:#ca8a04; margin-bottom:0.75rem;">
+        Open Question — Food Fraud &amp; VACCP
+      </div>
+      <p style="font-size:1.05rem; line-height:1.8; color:var(--dark); margin-bottom:1rem;">
+        A supplier produces raw mango pulp or puree — no added sugar, no external material whatsoever. Pure, unadulterated product on their side. They document it, they trust their process, and they dispatch it.
+      </p>
+      <p style="font-size:1.05rem; line-height:1.8; color:var(--dark); margin-bottom:1rem;">
+        On the receiving end, the plant conducts intermediate analysis and detects an abnormally high Brix reading — a figure that should not be achievable from raw mango pulp alone. The suspicion of sugar adulteration is raised. A formal complaint or case is filed against the supplier.
+      </p>
+      <p style="font-size:1.05rem; line-height:1.8; color:var(--dark); margin-bottom:1.5rem;">
+        Here is the problem: the supplier cannot afford to lose this. Not financially — but in terms of <strong>reputation and market standing</strong>. They maintain they did nothing wrong, and on their side, they genuinely may not have. But the evidence at the receiving plant points in one direction.
+      </p>
+      <p style="font-size:1.1rem; font-weight:700; color:#ca8a04; line-height:1.75;">
+        Given that VACCP is designed to assess and respond to food fraud vulnerabilities — how do you justify an intentional fraud finding against a supplier when the point of compromise cannot be conclusively located? And whose burden of proof is it when the breach may have occurred anywhere between production and receipt?
+      </p>
+      <div style="margin-top:1.25rem; padding:0.9rem 1.2rem; background:#fefce8;
+                  border-radius:0.5rem; font-size:0.9rem; color:#78350f; font-style:italic;">
+        &#x1F4AD; <strong>Reflect on this.</strong> There is no single answer here — this is the grey area that VACCP, supplier agreements, chain-of-custody documentation, and third-party testing are all designed to navigate.
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT INTERTEK -->
+  <section>
+    <h2>About Intertek</h2>
+    <div class="intertek-box">
+      <div>
+        <div class="it-label">Training Facilitated By</div>
+        <p>
+          <strong style="color:#F5C518;">Intertek</strong> is a leading Total Quality Assurance provider operating in more than 100 countries worldwide. The organisation delivers testing, inspection, certification, and auditing services across the food and beverage, consumer products, chemicals, and manufacturing sectors. In the food industry, Intertek provides FSSC 22000, ISO 22000, BRC, and other food safety certification and training services. The FSSC 22000 Version 6 training at Bigtree Beverages MFEZ on 09 March 2026 was facilitated by Intertek as an accredited certification and training body.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTHORED BY -->
+  <div class="author-block">
+    <img src="images/esiah-avatar.png" alt="Esiah Kapinga" />
+    <div>
+      <div class="author-name">Esiah Kapinga</div>
+      <div class="author-role">Quality Assurance Officer — Bigtree Beverages Limited, Lusaka, Zambia</div>
+      <div class="author-role" style="margin-top:0.2rem; font-size:0.8rem; color:#9CA3AF;">
+        This document is the official training summary authored following the FSSC 22000 V6 training, 09 March 2026.
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Download the Full Training Summary</h2>
+    <p>The complete FSSC 22000 Version 6 training summary is available as a formatted PDF document.</p>
+    <a href="FSSC_22000_Training_Summary.pdf" download class="cta-button">📄 Download PDF</a>
+    <a href="index.html#experience" class="cta-button-outline">← Back to Experience</a>
+  </div>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="red-line"></div>
+  <p>FSSC 22000 Version 6 Training Summary &mdash; Bigtree Beverages MFEZ, Lusaka &mdash; 09 March 2026</p>
+  <div class="social-icons">
+    <a href="https://www.linkedin.com/in/esiah-kapinga" target="_blank">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+    </a>
+    <a href="https://github.com/esiiah" target="_blank">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="filter:invert(1);">
+    </a>
+    <a href="https://www.instagram.com/esiah_kapinga" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+    </a>
+    <a href="https://www.youtube.com/@esiah.1" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+    </a>
+  </div>
+  <p style="margin-top:0.5rem; font-size:0.85rem;">&copy; 2026 Esiah Kapinga &mdash; FSSC 22000 Project</p>
+</footer>
+
+</body>
+</html>
